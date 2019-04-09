@@ -7,6 +7,8 @@ defmodule Game do
     line
     |> String.trim("\n")
     |> Input.process_move(state)
-    |> Output.print_board(:console)
+    |> Output.print_board(state)
+    |> Comp_player.make_move()
+    |> Output.print_board(state)
   end
 end

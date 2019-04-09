@@ -55,20 +55,8 @@ defmodule Input_Test do
     assert Input.open?("1", s) == false
   end
 
-  test "processes valid move into game state" do
-    s = %State{
-      board: %{
-        {0, 0} => 1,
-        {0, 1} => 2,
-        {0, 2} => 3,
-        {1, 0} => 4,
-        {1, 1} => 5,
-        {1, 2} => 6,
-        {2, 0} => 7,
-        {2, 1} => 8,
-        {2, 2} => 9
-      }
-    }
+  test "processes valid move to enter \"X\" into board and switches player to \"O\"" do
+    s = %State{}
 
     assert Input.process_move("1", s) ==
              %State{
@@ -83,7 +71,7 @@ defmodule Input_Test do
                  {2, 1} => 8,
                  {2, 2} => 9
                },
-               player: "X"
+               player: "O"
              }
   end
 
