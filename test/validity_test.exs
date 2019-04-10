@@ -60,24 +60,28 @@ defmodule Validity_Test do
       }
     end
 
-    test "returns argument error if input is nan" do
-      assert Validity.user_move_to_internal_state("a") == {:error, "argument error"}
+    test "returns nonexistant space error if input is nan" do
+      assert Validity.user_move_to_internal_state("a") == {:error, :nonexistant_space}
     end
 
     test "identifies input as not matching an existing space" do
-      assert Validity.user_move_to_internal_state("10") == :nonexistant_space
+      assert Validity.user_move_to_internal_state("10") == {:error, :nonexistant_space}
     end
 
     test "identifies input as not a number" do
-      assert Validity.number?("a") == false
+      assert Validity.number?("a") == {:error, :not_a_number}
     end
 
     test "identifies space that has been taken by \"X\"", context do
-      assert Validity.open?("1", context[:intermediary_state]) == false
+      assert Validity.open?("1", context[:intermediary_state]) == {:error, :space_taken}
     end
 
     test "identifies space that has been taken by \"O\"", context do
-      assert Validity.open?("2", context[:intermediary_state]) == false
+      assert Validity.open?("2", context[:intermediary_state]) == {:error, :space_taken}
+    end
+
+    test "identifies if input is not an existing space on the board", context do
+      assert Validity.space_on_board?("10") == {:error, :nonexistant_space}
     end
   end
 end

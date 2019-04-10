@@ -22,10 +22,6 @@ defmodule State do
     state.player
   end
 
-  def get_opponent(state) do
-    state.opponent
-  end
-
   def set_move(move, state) do
     %State{
       player: switch_player(state.player),
