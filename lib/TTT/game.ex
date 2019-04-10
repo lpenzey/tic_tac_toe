@@ -5,7 +5,7 @@ defmodule Game do
 
   def play(line, state) do
     line
-    |> String.trim("\n")
+    |> Input.clean()
     |> Input.process_move(state)
     |> Output.print_board(state)
     |> Comp_player.make_move()
