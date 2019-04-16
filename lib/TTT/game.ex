@@ -6,7 +6,7 @@ defmodule Game do
   def play(line, state) do
     line
     |> Input.clean()
-    |> Input.process_move(state)
+    |> Input.place_move(state)
     |> Output.print_board(state)
     |> ComputerPlayer.make_move()
     |> Output.print_board(state)
