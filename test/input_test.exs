@@ -1,7 +1,6 @@
 defmodule Input_Test do
   use ExUnit.Case
   doctest Input
-  import ExUnit.CaptureIO
 
   describe "when input is invalid" do
     setup do
@@ -24,11 +23,12 @@ defmodule Input_Test do
     end
 
     test "returns NAN error message" do
-      assert Input.move("a") == {:error, :not_a_number}
+      assert Input.sanitized_move("a") == {:error, :not_a_number}
     end
 
     test "doesn't place move for nan", context do
-      assert Input.analyze("a", context[:intermediary_board_state]) == {:error, :not_a_number}
+      assert Input.analyze("a", context[:intermediary_board_state]) ==
+               {:error, :nonexistant_space}
     end
 
     test "doesn't place move for a nonexistant space", context do
@@ -62,7 +62,7 @@ defmodule Input_Test do
     end
 
     test "move returns integer version of input" do
-      assert Input.move("1") == 1
+      assert Input.sanitized_move("1") == 1
     end
 
     test "returns game state with correctly updated board", context do

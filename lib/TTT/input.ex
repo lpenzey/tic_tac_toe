@@ -15,14 +15,15 @@ defmodule Input do
     end
   end
 
-  def move(input) do
+  def sanitized_move(input) do
     clean(input)
     |> to_int()
   end
 
-  def analyze(move, state) do
-    with {:ok, :is_number} <- Validity.number?(move),
-         {:ok, :space_on_board} <- Validity.space_on_board?(move),
+  def analyze(input, state) do
+    move = sanitized_move(input)
+
+    with {:ok, :space_on_board} <- Validity.space_on_board?(move),
          {:ok, :is_open} <- Validity.open?(move, state),
          do: place_move(move, state)
   end

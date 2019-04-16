@@ -5,7 +5,7 @@ defmodule Validity_Test do
   describe "when input is valid" do
     setup do
       %{
-        valid_move: "1",
+        valid_move: 1,
         initial_state: %State{
           board: %{
             {0, 0} => 1,
@@ -25,10 +25,6 @@ defmodule Validity_Test do
 
     test "can convert move to internal state", context do
       assert Validity.user_move_to_internal_state(context[:valid_move]) == {0, 0}
-    end
-
-    test "confirms input is a number", context do
-      assert Validity.number?(context[:valid_move])
     end
 
     test "identifies input as a space that exists on the board", context do
@@ -68,10 +64,6 @@ defmodule Validity_Test do
       assert Validity.user_move_to_internal_state("10") == {:error, :nonexistant_space}
     end
 
-    test "identifies input as not a number" do
-      assert Validity.number?("a") == {:error, :not_a_number}
-    end
-
     test "identifies space that has been taken by \"X\"", context do
       assert Validity.open?("1", context[:intermediary_state]) == {:error, :space_taken}
     end
@@ -80,7 +72,7 @@ defmodule Validity_Test do
       assert Validity.open?("2", context[:intermediary_state]) == {:error, :space_taken}
     end
 
-    test "identifies if input is not an existing space on the board", context do
+    test "identifies if input is not an existing space on the board" do
       assert Validity.space_on_board?("10") == {:error, :nonexistant_space}
     end
   end
