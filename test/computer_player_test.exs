@@ -1,6 +1,6 @@
-defmodule Comp_player_test do
+defmodule ComputerPlayer_test do
   use ExUnit.Case
-  doctest Comp_player
+  doctest ComputerPlayer
 
   describe "when board is empty" do
     setup do
@@ -23,7 +23,7 @@ defmodule Comp_player_test do
     end
 
     test "finds all open spaces", context do
-      assert Comp_player.available_moves(context[:initial_state]) == %{
+      assert ComputerPlayer.available_moves(context[:initial_state]) == %{
                {0, 0} => 1,
                {0, 1} => 2,
                {0, 2} => 3,
@@ -37,8 +37,8 @@ defmodule Comp_player_test do
     end
 
     test "returns a random key of an open space", context do
-      move = Comp_player.select_move(context[:initial_state])
-      assert Map.fetch!(Comp_player.available_moves(context[:initial_state]), move)
+      move = ComputerPlayer.select_move(context[:initial_state])
+      assert Map.fetch!(ComputerPlayer.available_moves(context[:initial_state]), move)
     end
   end
 
@@ -63,7 +63,7 @@ defmodule Comp_player_test do
     end
 
     test "finds all open spaces", context do
-      assert Comp_player.available_moves(context[:one_move_state]) == %{
+      assert ComputerPlayer.available_moves(context[:one_move_state]) == %{
                {0, 1} => 2,
                {0, 2} => 3,
                {1, 0} => 4,
@@ -76,8 +76,8 @@ defmodule Comp_player_test do
     end
 
     test "returns a random key of an open space", context do
-      move = Comp_player.select_move(context[:one_move_state])
-      assert Map.fetch!(Comp_player.available_moves(context[:one_move_state]), move)
+      move = ComputerPlayer.select_move(context[:one_move_state])
+      assert Map.fetch!(ComputerPlayer.available_moves(context[:one_move_state]), move)
     end
   end
 
@@ -102,11 +102,11 @@ defmodule Comp_player_test do
     end
 
     test "finds the only open space", context do
-      assert Comp_player.available_moves(context[:nearly_full_board_state]) == %{{2, 2} => 9}
+      assert ComputerPlayer.available_moves(context[:nearly_full_board_state]) == %{{2, 2} => 9}
     end
 
     test "returns key of the only open space", context do
-      assert Comp_player.select_move(context[:nearly_full_board_state]) == {2, 2}
+      assert ComputerPlayer.select_move(context[:nearly_full_board_state]) == {2, 2}
     end
   end
 
@@ -131,11 +131,12 @@ defmodule Comp_player_test do
     end
 
     test "returns an empty map", context do
-      assert Comp_player.available_moves(context[:nearly_full_board_state]) == %{}
+      assert ComputerPlayer.available_moves(context[:nearly_full_board_state]) == %{}
     end
 
     test "returns empty error message", context do
-      assert Comp_player.select_move(context[:nearly_full_board_state]) == {:error, "empty error"}
+      assert ComputerPlayer.select_move(context[:nearly_full_board_state]) ==
+               {:error, "empty error"}
     end
   end
 end

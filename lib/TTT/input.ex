@@ -7,6 +7,19 @@ defmodule Input do
     String.trim(input)
   end
 
+  def to_int(input) do
+    try do
+      String.to_integer(input)
+    rescue
+      ArgumentError -> {:error, :not_a_number}
+    end
+  end
+
+  def move(input) do
+    clean(input)
+    |> to_int()
+  end
+
   def analyze(move, state) do
     with {:ok, :is_number} <- Validity.number?(move),
          {:ok, :space_on_board} <- Validity.space_on_board?(move),

@@ -1,4 +1,4 @@
-defmodule Comp_player do
+defmodule ComputerPlayer do
   def available_moves(state) do
     board = State.get_board(state)
     for {key, value} <- board, is_number(value), into: %{}, do: {key, value}

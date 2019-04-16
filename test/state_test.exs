@@ -3,11 +3,11 @@ defmodule State_Test do
   doctest State
 
   test "creates State struct with player and empty board" do
-    s = %State{}
+    state = %State{}
 
-    assert s.player == "X"
+    assert state.player == "X"
 
-    assert s.board == %{
+    assert state.board == %{
              {0, 0} => 1,
              {0, 1} => 2,
              {0, 2} => 3,
@@ -21,9 +21,9 @@ defmodule State_Test do
   end
 
   test "gets the board values" do
-    s = %State{}
+    state = %State{}
 
-    assert State.get_board(s) == %{
+    assert State.get_board(state) == %{
              {0, 0} => 1,
              {0, 1} => 2,
              {0, 2} => 3,
@@ -37,28 +37,28 @@ defmodule State_Test do
   end
 
   test "gets the player symbol" do
-    s = %State{}
+    state = %State{}
 
-    assert State.get_player(s) == "X"
+    assert State.get_player(state) == "X"
   end
 
   test "switch player symbol from \"X\" to \"O\"" do
-    s = %State{player: "X"}
+    state = %State{player: "X"}
 
-    assert State.switch_player(s.player) == "O"
+    assert State.switch_player(state.player) == "O"
   end
 
   test "switch player symbol from \"O\" to \"X\"" do
-    s = %State{player: "O"}
+    state = %State{player: "O"}
 
-    assert State.switch_player(s.player) == "X"
+    assert State.switch_player(state.player) == "X"
   end
 
   test "sets player symbol \"X\" in board and switches player symbol to \"O\"" do
-    s = %State{player: "X"}
+    state = %State{player: "X"}
     move = {0, 0}
 
-    assert State.set_move(move, s) ==
+    assert State.set_move(move, state) ==
              %State{
                board: %{
                  {0, 0} => "X",
@@ -76,10 +76,10 @@ defmodule State_Test do
   end
 
   test "sets player symbol \"O\" in board and switches player symbol to \"X\"" do
-    s = %State{player: "O"}
+    state = %State{player: "O"}
     move = {0, 0}
 
-    assert State.set_move(move, s) ==
+    assert State.set_move(move, state) ==
              %State{
                board: %{
                  {0, 0} => "O",

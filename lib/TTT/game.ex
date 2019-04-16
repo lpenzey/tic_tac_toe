@@ -8,7 +8,7 @@ defmodule Game do
     |> Input.clean()
     |> Input.process_move(state)
     |> Output.print_board(state)
-    |> Comp_player.make_move()
+    |> ComputerPlayer.make_move()
     |> Output.print_board(state)
   end
 end
