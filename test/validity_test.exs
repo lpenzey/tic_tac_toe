@@ -1,4 +1,4 @@
-defmodule Validity_Test do
+defmodule ValidityTest do
   use ExUnit.Case
   doctest Validity
 

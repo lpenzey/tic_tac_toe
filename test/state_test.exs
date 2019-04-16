@@ -1,13 +1,13 @@
-defmodule State_Test do
+defmodule StateTest do
   use ExUnit.Case
   doctest State
 
-  test "creates State struct with player and empty board" do
-    state = %State{}
+  setup do
+    %{empty_board_state: %State{}}
+  end
 
-    assert state.player == "X"
-
-    assert state.board == %{
+  test "State struct is created with an empty board", context do
+    assert context[:empty_board_state].board == %{
              {0, 0} => 1,
              {0, 1} => 2,
              {0, 2} => 3,
@@ -20,10 +20,12 @@ defmodule State_Test do
            }
   end
 
-  test "gets the board values" do
-    state = %State{}
+  test "State struct is created with player symbol \"X\"", context do
+    assert context[:empty_board_state].player == "X"
+  end
 
-    assert State.get_board(state) == %{
+  test "gets the board values", context do
+    assert State.get_board(context[:empty_board_state]) == %{
              {0, 0} => 1,
              {0, 1} => 2,
              {0, 2} => 3,
@@ -36,29 +38,23 @@ defmodule State_Test do
            }
   end
 
-  test "gets the player symbol" do
-    state = %State{}
-
-    assert State.get_player(state) == "X"
+  test "gets the player symbol", context do
+    assert State.get_player(context[:empty_board_state]) == "X"
   end
 
-  test "switch player symbol from \"X\" to \"O\"" do
-    state = %State{player: "X"}
-
-    assert State.switch_player(state.player) == "O"
+  test "switch player symbol from \"X\" to \"O\"", context do
+    assert State.switch_player(context[:empty_board_state].player) == "O"
   end
 
   test "switch player symbol from \"O\" to \"X\"" do
-    state = %State{player: "O"}
-
-    assert State.switch_player(state.player) == "X"
+    player_O_state = %State{player: "O"}
+    assert State.switch_player(player_O_state.player) == "X"
   end
 
-  test "sets player symbol \"X\" in board and switches player symbol to \"O\"" do
-    state = %State{player: "X"}
+  test "sets player symbol \"X\" in board and switches player symbol to \"O\"", context do
     move = {0, 0}
 
-    assert State.set_move(move, state) ==
+    assert State.set_move(move, context[:empty_board_state]) ==
              %State{
                board: %{
                  {0, 0} => "X",
@@ -76,10 +72,10 @@ defmodule State_Test do
   end
 
   test "sets player symbol \"O\" in board and switches player symbol to \"X\"" do
-    state = %State{player: "O"}
+    empty_board = %State{player: "O"}
     move = {0, 0}
 
-    assert State.set_move(move, state) ==
+    assert State.set_move(move, empty_board) ==
              %State{
                board: %{
                  {0, 0} => "O",

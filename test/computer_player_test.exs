@@ -1,4 +1,4 @@
-defmodule ComputerPlayer_test do
+defmodule ComputerPlayerTest do
   use ExUnit.Case
   doctest ComputerPlayer
 

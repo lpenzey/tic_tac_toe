@@ -1,4 +1,4 @@
-defmodule Input_Test do
+defmodule InputTest do
   use ExUnit.Case
   doctest Input
 
