@@ -1,4 +1,4 @@
-defmodule Output_Test do
+defmodule OutputTest do
   use ExUnit.Case
   doctest Output
   import ExUnit.CaptureIO
@@ -8,10 +8,10 @@ defmodule Output_Test do
   end
 
   test "print_board outputs initial board to the console" do
-    s = %State{}
+    empty_board_state = %State{}
 
-    assert capture_io(fn -> Output.print_board(s, :console) end) ==
-             Board.build(s) <> "\n"
+    assert capture_io(fn -> Output.print_board(empty_board_state, :console) end) ==
+             Board.build(empty_board_state) <> "\n"
   end
 
   test "welcome outputs to console when client is the console" do

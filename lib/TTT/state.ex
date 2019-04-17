@@ -23,6 +23,13 @@ defmodule State do
   end
 
   def set_move(move, state) do
-    %State{state | board: Map.replace!(state.board, move, state.player)}
+    %State{
+      player: switch_player(state.player),
+      board: Map.replace!(state.board, move, state.player)
+    }
   end
+
+  def switch_player("X"), do: "O"
+
+  def switch_player("O"), do: "X"
 end

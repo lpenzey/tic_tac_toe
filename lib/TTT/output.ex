@@ -11,7 +11,7 @@ defmodule Output do
     messages[term]
   end
 
-  def print_board(state, :console) do
+  def print_board(state, _client \\ :console) do
     IO.puts(Board.build(state))
     state
   end
