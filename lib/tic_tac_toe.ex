@@ -1,10 +1,8 @@
 defmodule TicTacToe do
-  def main(client) do
-    Output.welcome(client)
+  def main(_args) do
+    Output.welcome()
     state = Game.init()
-    Output.print_board(state, client)
-
-    Input.retrieve()
-    |> Enum.reduce(state, &Game.play/2)
+    Output.display_board(state)
+    Game.play(false, state)
   end
 end

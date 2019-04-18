@@ -54,7 +54,7 @@ defmodule StatusTest do
                [[{0, 0}, {1, 1}, {2, 2}], [{2, 0}, {1, 1}, {0, 2}]]
     end
 
-    test "generates all winning combination triplets", context do
+    test "generates all winning combinations for 3x3 board", context do
       assert Status.win_combinations(context[:initial_board]) ==
                [
                  [{0, 0}, {0, 1}, {0, 2}],
@@ -65,6 +65,41 @@ defmodule StatusTest do
                  [{0, 2}, {1, 2}, {2, 2}],
                  [{0, 0}, {1, 1}, {2, 2}],
                  [{2, 0}, {1, 1}, {0, 2}]
+               ]
+    end
+
+    test "generates all winning combination triplets for 4x4 board" do
+      four_board = %{
+        {0, 0} => 1,
+        {0, 1} => 2,
+        {0, 2} => 3,
+        {0, 3} => 4,
+        {1, 0} => 5,
+        {1, 1} => 6,
+        {1, 2} => 7,
+        {1, 3} => 8,
+        {2, 0} => 9,
+        {2, 1} => 10,
+        {2, 2} => 11,
+        {2, 3} => 12,
+        {3, 0} => 13,
+        {3, 1} => 14,
+        {3, 2} => 15,
+        {3, 3} => 16
+      }
+
+      assert Status.win_combinations(four_board) ==
+               [
+                 [{0, 0}, {0, 1}, {0, 2}, {0, 3}],
+                 [{1, 0}, {1, 1}, {1, 2}, {1, 3}],
+                 [{2, 0}, {2, 1}, {2, 2}, {2, 3}],
+                 [{3, 0}, {3, 1}, {3, 2}, {3, 3}],
+                 [{0, 0}, {1, 0}, {2, 0}, {3, 0}],
+                 [{0, 1}, {1, 1}, {2, 1}, {3, 1}],
+                 [{0, 2}, {1, 2}, {2, 2}, {3, 2}],
+                 [{0, 3}, {1, 3}, {2, 3}, {3, 3}],
+                 [{0, 0}, {1, 1}, {2, 2}, {3, 3}],
+                 [{3, 0}, {2, 1}, {1, 2}, {0, 3}]
                ]
     end
 

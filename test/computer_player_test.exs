@@ -40,6 +40,13 @@ defmodule ComputerPlayerTest do
       move = ComputerPlayer.select_move(context[:initial_state])
       assert Map.fetch!(ComputerPlayer.available_moves(context[:initial_state]), move)
     end
+
+    test "enters move into board state", context do
+      computer_move_state = ComputerPlayer.make_move(context[:initial_state])
+      board_values = Map.values(computer_move_state.board)
+
+      assert Enum.find(board_values, fn x -> x == "X" end) == "X"
+    end
   end
 
   describe "when board has one move" do
@@ -113,7 +120,7 @@ defmodule ComputerPlayerTest do
   describe "when board is full" do
     setup do
       %{
-        nearly_full_board_state: %State{
+        full_board_state: %State{
           board: %{
             {0, 0} => "X",
             {0, 1} => "O",
@@ -131,12 +138,16 @@ defmodule ComputerPlayerTest do
     end
 
     test "returns an empty map", context do
-      assert ComputerPlayer.available_moves(context[:nearly_full_board_state]) == %{}
+      assert ComputerPlayer.available_moves(context[:full_board_state]) == %{}
     end
 
     test "returns empty error message", context do
-      assert ComputerPlayer.select_move(context[:nearly_full_board_state]) ==
+      assert ComputerPlayer.select_move(context[:full_board_state]) ==
                {:error, "empty error"}
+    end
+
+    test "returns state when board is full", context do
+      assert ComputerPlayer.make_move(context[:full_board_state]) == context[:full_board_state]
     end
   end
 end
