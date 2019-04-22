@@ -3,12 +3,12 @@ defmodule Game do
     %State{}
   end
 
-  def play(true, state) do
+  def over(state) do
     Output.display_board(state)
     Output.end_of_game(state)
   end
 
-  def play(false, state) do
+  def play(state) do
     new_state =
       Input.retrieve()
       |> Input.analyze(state)
@@ -17,6 +17,12 @@ defmodule Game do
       |> Output.display_message(:opponent_move)
       |> Output.display_board()
 
-    play(Status.over?(State.get_board(new_state)), new_state)
+    cond do
+      Status.over(State.get_board(new_state)) == :game_in_progress ->
+        play(new_state)
+
+      Status.over(State.get_board(new_state)) == :game_over ->
+        over(new_state)
+    end
   end
 end

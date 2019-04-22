@@ -13,19 +13,29 @@ defmodule Status do
     end)
   end
 
-  def tie?(board) do
-    cond do
-      win?(board) == true ->
-        false
-
-      win?(board) == false ->
-        Map.values(board)
-        |> Enum.all?(fn spot -> is_binary(spot) end)
+  def tie(board) do
+    if !win?(board) do
+      Map.values(board)
+      |> Enum.all?(fn spot -> is_binary(spot) end)
+    else
+      false
     end
   end
 
-  def over?(board) do
-    win?(board) or tie?(board)
+  def over(board) do
+    cond do
+      win?(board) == true ->
+        :game_over
+
+      tie(board) == true ->
+        :game_over
+
+      win?(board) == false ->
+        :game_in_progress
+
+      tie(board) == false ->
+        :game_in_progress
+    end
   end
 
   def winner(board) do

@@ -108,11 +108,11 @@ defmodule StatusTest do
     end
 
     test "status tie is false", context do
-      assert Status.tie?(context[:initial_board]) == false
+      assert Status.tie(context[:initial_board]) == false
     end
 
     test "status over is false", context do
-      assert Status.over?(context[:initial_board]) == false
+      assert Status.over(context[:initial_board]) == :game_in_progress
     end
   end
 
@@ -138,11 +138,11 @@ defmodule StatusTest do
     end
 
     test "status tie is false", context do
-      assert Status.tie?(context[:nearly_full_board]) == false
+      assert Status.tie(context[:nearly_full_board]) == false
     end
 
     test "status over is false", context do
-      assert Status.over?(context[:nearly_full_board]) == false
+      assert Status.over(context[:nearly_full_board]) == :game_in_progress
     end
   end
 
@@ -168,11 +168,11 @@ defmodule StatusTest do
     end
 
     test "status tie is false", context do
-      assert Status.tie?(context[:x_winning_board]) == false
+      assert Status.tie(context[:x_winning_board]) == false
     end
 
     test "status over is true", context do
-      assert Status.over?(context[:x_winning_board]) == true
+      assert Status.over(context[:x_winning_board]) == :game_over
     end
 
     test "winning path is found", context do
@@ -206,11 +206,11 @@ defmodule StatusTest do
     end
 
     test "status tie is false", context do
-      assert Status.tie?(context[:o_winning_board]) == false
+      assert Status.tie(context[:o_winning_board]) == false
     end
 
     test "status over is true", context do
-      assert Status.over?(context[:o_winning_board]) == true
+      assert Status.over(context[:o_winning_board]) == :game_over
     end
 
     test "winning path is found", context do
@@ -244,11 +244,11 @@ defmodule StatusTest do
     end
 
     test "status tie is true", context do
-      assert Status.tie?(context[:tie_board]) == true
+      assert Status.tie(context[:tie_board]) == true
     end
 
-    test "status over is true", context do
-      assert Status.over?(context[:tie_board]) == true
+    test "game is over", context do
+      assert Status.over(context[:tie_board]) == :game_over
     end
   end
 end

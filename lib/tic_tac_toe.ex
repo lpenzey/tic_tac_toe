@@ -3,6 +3,6 @@ defmodule TicTacToe do
     Output.welcome()
     state = Game.init()
     Output.display_board(state)
-    Game.play(false, state)
+    Game.play(state)
   end
 end

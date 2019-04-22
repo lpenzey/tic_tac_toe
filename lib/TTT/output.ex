@@ -33,7 +33,7 @@ defmodule Output do
         winner = Status.winner(State.get_board(state))
         IO.puts("Congratulations to #{winner} for winning the game!")
 
-      Status.tie?(State.get_board(state)) ->
+      Status.tie(State.get_board(state)) ->
         IO.puts(get_message(:tie))
     end
   end

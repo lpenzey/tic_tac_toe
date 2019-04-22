@@ -10,7 +10,7 @@ use Mix.Config
 
 # You can configure your application as:
 #
-#     config :tic_tac_toe, key: :value
+config :tic_tac_toe, :console_io, IO
 #
 # and access this configuration in your application as:
 #

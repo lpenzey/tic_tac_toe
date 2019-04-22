@@ -7,7 +7,7 @@ defmodule GameTest do
   describe "when game is a tie" do
     setup do
       %{
-        initial_state: %State{
+        tie_game_state: %State{
           board: %{
             {0, 0} => "X",
             {0, 1} => "O",
@@ -25,7 +25,13 @@ defmodule GameTest do
     end
 
     test "end of game message is called with a tie", context do
-      tie_game = capture_io(fn -> Game.play(true, context[:initial_state]) end)
+      tie_game =
+        capture_io(fn ->
+          Game.play(
+            Status.over(State.get_board(context[:tie_game_state])),
+            context[:tie_game_state]
+          )
+        end)
 
       assert String.contains?(tie_game, "tie")
     end
@@ -34,7 +40,7 @@ defmodule GameTest do
   describe "when game is won" do
     setup do
       %{
-        initial_state: %State{
+        winning_game_state: %State{
           board: %{
             {0, 0} => "X",
             {0, 1} => "X",
@@ -52,7 +58,13 @@ defmodule GameTest do
     end
 
     test "end of game message is called with a win", context do
-      tie_game = capture_io(fn -> Game.play(true, context[:initial_state]) end)
+      tie_game =
+        capture_io(fn ->
+          Game.play(
+            Status.over(State.get_board(context[:winning_game_state])),
+            context[:winning_game_state]
+          )
+        end)
 
       assert String.contains?(tie_game, "winning")
     end
