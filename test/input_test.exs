@@ -2,6 +2,8 @@ defmodule InputTest do
   use ExUnit.Case
   doctest Input
 
+  import ExUnit.CaptureIO
+
   describe "when input is invalid" do
     setup do
       %{
@@ -30,6 +32,16 @@ defmodule InputTest do
       Input.retrieve(MockInputOutput)
       assert_received "retrieved user input"
     end
+
+    test "rejects a move for a space that's taken", context do
+      assert MockInput.analyze(1, context[:intermediary_board_state]) ==
+               {:error, :need_valid_input}
+    end
+
+    test "rejects a move for a space that's not on the board", context do
+      assert MockInput.analyze(10, context[:intermediary_board_state]) ==
+               {:error, :need_valid_input}
+    end
   end
 
   describe "when input is valid" do
@@ -54,6 +66,11 @@ defmodule InputTest do
 
     test "move returns integer version of input" do
       assert Input.sanitized_move("1") == 1
+    end
+
+    test "approves a move for a space that is open", context do
+      assert MockInput.analyze(1, context[:empty_board_state]) ==
+               {:ok, :move_placed}
     end
   end
 end
