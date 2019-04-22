@@ -11,7 +11,7 @@ defmodule OutputTest do
     empty_board_state = %State{}
 
     assert capture_io(fn -> Output.display_board(empty_board_state, :console) end) ==
-             Board.build(empty_board_state) <> "\n"
+             ConsoleBoardPresenter.build(empty_board_state) <> "\n"
   end
 
   test "welcome message is displayed" do

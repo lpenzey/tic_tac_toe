@@ -31,7 +31,7 @@ defmodule Input do
   end
 
   def place_move(move, state) do
-    Board.user_move_to_internal_state(move)
+    State.user_move_to_internal_state(move)
     |> State.set_move(state)
   end
 end

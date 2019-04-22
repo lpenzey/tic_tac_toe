@@ -14,7 +14,7 @@ defmodule Output do
   end
 
   def display_board(state, _client \\ :console) do
-    IO.puts(Board.build(state))
+    IO.puts(ConsoleBoardPresenter.build(state))
     state
   end
 

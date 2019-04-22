@@ -1,7 +1,7 @@
 defmodule Validity do
   def space_on_board?(move) do
     cond do
-      Board.user_move_to_internal_state(move) == {:error, :nonexistant_space} ->
+      State.user_move_to_internal_state(move) == {:error, :nonexistant_space} ->
         {:error, :nonexistant_space}
 
       true ->
@@ -10,7 +10,7 @@ defmodule Validity do
   end
 
   def open?(move, state) do
-    spot = Map.get(State.get_board(state), Board.user_move_to_internal_state(move))
+    spot = Map.get(State.get_board(state), State.user_move_to_internal_state(move))
 
     cond do
       is_binary(spot) -> {:error, :space_taken}

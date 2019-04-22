@@ -1,36 +1,7 @@
-defmodule Board do
+defmodule ConsoleBoardPresenter do
   def gen_values(state) do
     State.get_board(state)
     |> Map.values()
-  end
-
-  def invert(state) do
-    State.get_board(state)
-    |> Enum.reduce(%{}, fn {k, vs}, acc ->
-      Map.update(acc, vs, k, &Tuple.append(&1, k))
-    end)
-  end
-
-  def user_move_to_internal_state(move) do
-    try do
-      Map.get(
-        %{
-          1 => {0, 0},
-          2 => {0, 1},
-          3 => {0, 2},
-          4 => {1, 0},
-          5 => {1, 1},
-          6 => {1, 2},
-          7 => {2, 0},
-          8 => {2, 1},
-          9 => {2, 2}
-        },
-        move,
-        {:error, :nonexistant_space}
-      )
-    rescue
-      ArgumentError -> {:error, :nonexistant_space}
-    end
   end
 
   def build(state) do
