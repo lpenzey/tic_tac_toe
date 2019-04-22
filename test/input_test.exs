@@ -25,6 +25,11 @@ defmodule InputTest do
     test "returns NAN error message" do
       assert Input.sanitized_move("a") == {:error, :not_a_number}
     end
+
+    test "retrieve gets user input" do
+      Input.retrieve(MockInputOutput)
+      assert_received "retrieved user input"
+    end
   end
 
   describe "when input is valid" do

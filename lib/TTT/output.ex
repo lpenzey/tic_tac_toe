@@ -1,4 +1,6 @@
 defmodule Output do
+  @input_output Application.get_env(:tic_tac_toe, :console_io)
+
   def get_message(term) do
     messages = %{
       welcome: "Welcome to Tic Tac Toe!",
@@ -14,16 +16,16 @@ defmodule Output do
   end
 
   def display_board(state, _client \\ :console) do
-    IO.puts(ConsoleBoardPresenter.build(state))
+    @input_output.puts(ConsoleBoardPresenter.build(state))
     state
   end
 
   def welcome do
-    IO.puts(Output.get_message(:welcome))
+    @input_output.puts(Output.get_message(:welcome))
   end
 
   def display_message(state, message) do
-    IO.puts(Output.get_message(message))
+    @input_output.puts(Output.get_message(message))
     state
   end
 
@@ -31,10 +33,10 @@ defmodule Output do
     cond do
       Status.win?(State.get_board(state)) ->
         winner = Status.winner(State.get_board(state))
-        IO.puts("Congratulations to #{winner} for winning the game!")
+        @input_output.puts("Congratulations to #{winner} for winning the game!")
 
       Status.tie(State.get_board(state)) ->
-        IO.puts(get_message(:tie))
+        @input_output.puts(get_message(:tie))
     end
   end
 end

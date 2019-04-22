@@ -1,6 +1,6 @@
 defmodule Input do
-  def retrieve do
-    IO.gets(Output.get_message(:choose))
+  def retrieve(input_output \\ Application.get_env(:tic_tac_toe, :console_io)) do
+    input_output.gets(Output.get_message(:choose))
     |> sanitized_move()
   end
 
