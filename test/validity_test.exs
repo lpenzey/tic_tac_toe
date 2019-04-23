@@ -23,12 +23,8 @@ defmodule ValidityTest do
       }
     end
 
-    test "can convert move to internal state", context do
-      assert Validity.user_move_to_internal_state(context[:valid_move]) == {0, 0}
-    end
-
     test "identifies input as a space that exists on the board", context do
-      assert Validity.user_move_to_internal_state(context[:valid_move])
+      assert Validity.space_on_board?(context[:valid_move]) == {:ok, :space_on_board}
     end
 
     test "confirms space is open", context do
@@ -54,14 +50,6 @@ defmodule ValidityTest do
           player: "X"
         }
       }
-    end
-
-    test "returns nonexistant space error if input is nan" do
-      assert Validity.user_move_to_internal_state("a") == {:error, :nonexistant_space}
-    end
-
-    test "identifies input as not matching an existing space" do
-      assert Validity.user_move_to_internal_state("10") == {:error, :nonexistant_space}
     end
 
     test "identifies space that has been taken by \"X\"", context do

@@ -2,6 +2,8 @@ defmodule InputTest do
   use ExUnit.Case
   doctest Input
 
+  import ExUnit.CaptureIO
+
   describe "when input is invalid" do
     setup do
       %{
@@ -26,18 +28,19 @@ defmodule InputTest do
       assert Input.sanitized_move("a") == {:error, :not_a_number}
     end
 
-    test "doesn't place move for nan", context do
-      assert Input.analyze("a", context[:intermediary_board_state]) ==
-               {:error, :nonexistant_space}
+    test "retrieve gets user input" do
+      Input.retrieve(MockInputOutput)
+      assert_received "retrieved user input"
     end
 
-    test "doesn't place move for a nonexistant space", context do
-      assert Input.analyze("10", context[:intermediary_board_state]) ==
-               {:error, :nonexistant_space}
+    test "rejects a move for a space that's taken", context do
+      assert MockInput.analyze(1, context[:intermediary_board_state]) ==
+               {:error, :need_valid_input}
     end
 
-    test "doesn't place move for a space that is taken", context do
-      assert Input.analyze("1", context[:intermediary_board_state]) == {:error, :space_taken}
+    test "rejects a move for a space that's not on the board", context do
+      assert MockInput.analyze(10, context[:intermediary_board_state]) ==
+               {:error, :need_valid_input}
     end
   end
 
@@ -65,22 +68,9 @@ defmodule InputTest do
       assert Input.sanitized_move("1") == 1
     end
 
-    test "returns game state with correctly updated board", context do
-      assert Input.analyze("1", context[:empty_board_state]) ==
-               %State{
-                 board: %{
-                   {0, 0} => "X",
-                   {0, 1} => 2,
-                   {0, 2} => 3,
-                   {1, 0} => 4,
-                   {1, 1} => 5,
-                   {1, 2} => 6,
-                   {2, 0} => 7,
-                   {2, 1} => 8,
-                   {2, 2} => 9
-                 },
-                 player: "O"
-               }
+    test "approves a move for a space that is open", context do
+      assert MockInput.analyze(1, context[:empty_board_state]) ==
+               {:ok, :move_placed}
     end
   end
 end

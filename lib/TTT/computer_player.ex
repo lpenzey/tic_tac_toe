@@ -15,7 +15,13 @@ defmodule ComputerPlayer do
   end
 
   def make_move(state) do
-    select_move(state)
-    |> State.set_move(state)
+    cond do
+      select_move(state) !== {:error, "empty error"} ->
+        select_move(state)
+        |> State.set_move(state)
+
+      select_move(state) == {:error, "empty error"} ->
+        state
+    end
   end
 end

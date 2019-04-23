@@ -3,12 +3,26 @@ defmodule Game do
     %State{}
   end
 
-  def play(line, state) do
-    line
-    |> Input.clean()
-    |> Input.process_move(state)
-    |> Output.print_board(state)
-    |> ComputerPlayer.make_move()
-    |> Output.print_board(state)
+  def over(state) do
+    Output.display_board(state)
+    Output.end_of_game(state)
+  end
+
+  def play(state) do
+    new_state =
+      Input.retrieve()
+      |> Input.analyze(state)
+      |> Output.display_board()
+      |> ComputerPlayer.make_move()
+      |> Output.display_message(:opponent_move)
+      |> Output.display_board()
+
+    cond do
+      Status.over(State.get_board(new_state)) == :game_in_progress ->
+        play(new_state)
+
+      Status.over(State.get_board(new_state)) == :game_over ->
+        over(new_state)
+    end
   end
 end

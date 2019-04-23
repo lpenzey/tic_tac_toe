@@ -1,4 +1,4 @@
-defmodule Board do
+defmodule ConsoleBoardPresenter do
   def gen_values(state) do
     State.get_board(state)
     |> Map.values()
