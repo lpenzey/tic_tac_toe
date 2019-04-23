@@ -1,6 +1,6 @@
 defmodule Game do
-  def init do
-    %State{}
+  def init(token \\ "X") do
+    %State{player: token}
   end
 
   def over(state) do
@@ -10,10 +10,9 @@ defmodule Game do
 
   def play(state) do
     new_state =
-      Input.retrieve()
-      |> Input.analyze(state)
+      human_move(state)
       |> Output.display_board()
-      |> ComputerPlayer.make_move()
+      |> computer_move()
       |> Output.display_message(:opponent_move)
       |> Output.display_board()
 
@@ -24,5 +23,15 @@ defmodule Game do
       Status.over(State.get_board(new_state)) == :game_over ->
         over(new_state)
     end
+  end
+
+  def human_move(state) do
+    Input.retrieve(:choose)
+    |> Input.sanitized_move()
+    |> Input.analyze(state)
+  end
+
+  def computer_move(state) do
+    ComputerPlayer.make_move(state)
   end
 end

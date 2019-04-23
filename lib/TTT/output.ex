@@ -5,6 +5,7 @@ defmodule Output do
     messages = %{
       welcome: "Welcome to Tic Tac Toe!",
       choose: "Please choose a spot by entering 1 - 9: ",
+      choose_token: "Please choose your token (enter \"X\" or \"O\"): ",
       nonexistant_space: "I'm sorry, that space doesn't exist on the board, please choose again",
       space_taken: "I'm sorry, that space is taken, please choose again",
       nan: "I'm sorry, that is not a number, please enter a number",
