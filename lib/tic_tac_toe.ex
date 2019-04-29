@@ -1,8 +1,8 @@
 defmodule TicTacToe do
-  def main(_args) do
-    Output.welcome()
-    state = Game.init(Input.choose_token())
-    Output.display_board(state)
-    Game.play(state)
+  def main(_opts \\ []) do
+    deps = OptionsBuilder.init()
+    deps.output.welcome()
+    state = Game.init(deps.human_player.choose_token(deps))
+    Game.play(state, deps)
   end
 end
