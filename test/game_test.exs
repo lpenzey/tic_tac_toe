@@ -2,6 +2,8 @@ defmodule GameTest do
   use ExUnit.Case
   doctest Game
 
+  import ExUnit.CaptureIO
+
   describe "when game has begun" do
     setup do
       %{
@@ -29,6 +31,22 @@ defmodule GameTest do
     test "initializes game with player token \"O\"" do
       assert Game.init("O").player == "O"
     end
+
+    test "cycles through moves until a player wins or ties", context do
+      Helpers.Stack.setup(["1\n", "2\n", "3\n", "4\n", "5\n", "6\n", "7\n", "8\n", "9\n"])
+
+      mock_deps = %{
+        input: MockInput,
+        output: MockOutput,
+        validity: Validity
+      }
+
+      game_status = capture_io(fn -> Game.play(context[:initial_game_state], mock_deps) end)
+
+      assert String.contains?(game_status, "game")
+
+      Helpers.Stack.teardown()
+    end
   end
 
   describe "when game is a tie" do
@@ -50,6 +68,12 @@ defmodule GameTest do
         }
       }
     end
+
+    test "outputs tie message", context do
+      end_of_game = capture_io(fn -> Game.over(context[:tie_game_state]) end)
+
+      assert String.contains?(end_of_game, "tie")
+    end
   end
 
   describe "when game is won" do
@@ -70,6 +94,12 @@ defmodule GameTest do
           player: "X"
         }
       }
+    end
+
+    test "outputs win message", context do
+      end_of_game = capture_io(fn -> Game.over(context[:winning_game_state]) end)
+
+      assert String.contains?(end_of_game, "win")
     end
   end
 end

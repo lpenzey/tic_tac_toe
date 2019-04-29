@@ -8,27 +8,28 @@ defmodule Game do
     Output.end_of_game(state)
   end
 
-  def play(state) do
+  def play(state, deps) do
+    deps.output.display_board(state)
+
     new_state =
-      human_move(state)
-      |> Output.display_board()
+      human_move(state, deps)
+      |> deps.output.display_board()
       |> computer_move()
-      |> Output.display_message(:opponent_move)
-      |> Output.display_board()
+      |> deps.output.display_message(:opponent_move)
 
     cond do
       Status.over(State.get_board(new_state)) == :game_in_progress ->
-        play(new_state)
+        play(new_state, deps)
 
       Status.over(State.get_board(new_state)) == :game_over ->
         over(new_state)
     end
   end
 
-  def human_move(state) do
-    Input.retrieve(:choose)
-    |> Input.sanitized_move()
-    |> Input.analyze(state)
+  def human_move(state, deps) do
+    deps.input.retrieve(:choose)
+    |> deps.input.sanitized_move()
+    |> HumanPlayer.analyze(state, deps)
   end
 
   def computer_move(state) do
