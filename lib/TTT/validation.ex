@@ -1,10 +1,4 @@
-defmodule Input do
-  @input_output Application.get_env(:tic_tac_toe, :console_io)
-
-  def retrieve(input \\ @input_output, message) do
-    input.gets(Output.get_message(message))
-  end
-
+defmodule Validation do
   def clean(input) do
     String.trim(input)
   end

@@ -30,7 +30,7 @@ defmodule HumanPlayer do
   end
 
   def place_move(move, state) do
-    Input.user_move_to_internal_state(move)
+    Validation.user_move_to_internal_state(move)
     |> State.set_move(state)
   end
 end
