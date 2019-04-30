@@ -15,8 +15,8 @@ defmodule HumanPlayer do
   end
 
   def analyze(move, state, deps) do
-    with {:ok, :space_on_board} <- deps.validity.space_on_board?(move),
-         {:ok, :is_open} <- deps.validity.open?(move, state) do
+    with {:ok, :space_on_board} <- deps.input.space_on_board?(move),
+         {:ok, :is_open} <- deps.input.open?(move, state) do
       place_move(move, state)
     else
       {:error, :nonexistant_space} ->
@@ -30,7 +30,7 @@ defmodule HumanPlayer do
   end
 
   def place_move(move, state) do
-    State.user_move_to_internal_state(move)
+    Input.user_move_to_internal_state(move)
     |> State.set_move(state)
   end
 end
