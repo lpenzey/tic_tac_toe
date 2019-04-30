@@ -6,7 +6,7 @@ defmodule OptionsBuilderTest do
              validation: MockValidation,
              messages: MockMessages,
              io: MockTTT.IO,
-             human_player: MockHumanPlayer
+             player: Player
            }
   end
 end

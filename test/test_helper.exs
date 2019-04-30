@@ -10,7 +10,7 @@ defmodule MockTTT.IO do
   end
 end
 
-defmodule MockHumanPlayer do
+defmodule MockPlayer do
   def choose_token(_deps) do
     "X"
   end

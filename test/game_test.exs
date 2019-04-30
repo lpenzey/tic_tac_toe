@@ -39,7 +39,7 @@ defmodule GameTest do
         validation: MockValidation,
         messages: MockMessages,
         io: MockTTT.IO,
-        human_player: MockHumanPlayer
+        player: Player
       }
 
       game_status = capture_io(fn -> Game.play(context[:initial_game_state], mock_deps) end)

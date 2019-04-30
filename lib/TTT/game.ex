@@ -29,10 +29,10 @@ defmodule Game do
   def human_move(state, deps) do
     deps.io.retrieve(:choose)
     |> deps.validation.sanitized_move()
-    |> HumanPlayer.analyze(state, deps)
+    |> deps.player.analyze(state, deps)
   end
 
   def computer_move(state) do
-    ComputerPlayer.make_move(state)
+    Player.make_move(state)
   end
 end
