@@ -1,12 +1,6 @@
 ExUnit.start()
 
-defmodule MockHumanPlayer do
-  def choose_token(_deps) do
-    "X"
-  end
-end
-
-defmodule MockInput do
+defmodule MockTTT.IO do
   def retrieve(message) do
     gets(message)
   end
@@ -14,7 +8,15 @@ defmodule MockInput do
   def gets(_prompt) do
     Helpers.Stack.pop()
   end
+end
 
+defmodule MockHumanPlayer do
+  def choose_token(_deps) do
+    "X"
+  end
+end
+
+defmodule MockValidation do
   def clean(input) do
     String.trim(input)
   end
@@ -75,7 +77,7 @@ defmodule MockInput do
   end
 end
 
-defmodule MockOutput do
+defmodule MockMessages do
   def display_message(state, _message) do
     state
   end

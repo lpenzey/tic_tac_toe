@@ -36,9 +36,10 @@ defmodule GameTest do
       Helpers.Stack.setup(["1\n", "2\n", "3\n", "4\n", "5\n", "6\n", "7\n", "8\n", "9\n"])
 
       mock_deps = %{
-        input: MockInput,
-        output: MockOutput,
-        validity: Validity
+        validation: MockValidation,
+        messages: MockMessages,
+        io: MockTTT.IO,
+        human_player: MockHumanPlayer
       }
 
       game_status = capture_io(fn -> Game.play(context[:initial_game_state], mock_deps) end)

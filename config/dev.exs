@@ -1,8 +1,8 @@
 use Mix.Config
 
 config :tic_tac_toe, :deps, %{
-  input: Input,
-  output: Output,
-  validity: Validity,
+  validation: Validation,
+  messages: Messages,
+  io: TTT.IO,
   human_player: HumanPlayer
 }

@@ -1,4 +1,4 @@
-defmodule Output do
+defmodule Messages do
   @input_output Application.get_env(:tic_tac_toe, :console_io)
 
   def get_message(term) do
@@ -22,11 +22,11 @@ defmodule Output do
   end
 
   def welcome do
-    @input_output.puts(Output.get_message(:welcome))
+    @input_output.puts(Messages.get_message(:welcome))
   end
 
   def display_message(state, message) do
-    @input_output.puts(Output.get_message(message))
+    @input_output.puts(Messages.get_message(message))
     state
   end
 

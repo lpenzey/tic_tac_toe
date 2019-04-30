@@ -24,9 +24,10 @@ defmodule HumanPlayerTest do
 
     test "rejects invalid moves until valid move is entered", context do
       mock_deps = %{
-        input: MockInput,
-        output: MockOutput,
-        validity: Validity
+        validation: MockValidation,
+        messages: MockMessages,
+        io: MockTTT.IO,
+        human_player: MockHumanPlayer
       }
 
       Helpers.Stack.setup(["foo", "10\n", "1\n", "4\n"])
@@ -54,7 +55,10 @@ defmodule HumanPlayerTest do
     Helpers.Stack.setup(["foo", "10\n", "1\n", "4\n", "x\n"])
 
     mock_deps = %{
-      input: MockInput
+      validation: MockValidation,
+      messages: MockMessages,
+      io: MockTTT.IO,
+      human_player: MockHumanPlayer
     }
 
     assert HumanPlayer.choose_token(mock_deps) == "X"
@@ -66,7 +70,10 @@ defmodule HumanPlayerTest do
     Helpers.Stack.setup(["foo", "10\n", "1\n", "4\n", "o\n"])
 
     mock_deps = %{
-      input: MockInput
+      validation: MockValidation,
+      messages: MockMessages,
+      io: MockTTT.IO,
+      human_player: MockHumanPlayer
     }
 
     assert HumanPlayer.choose_token(mock_deps) == "O"
