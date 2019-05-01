@@ -56,6 +56,27 @@ defmodule MockValidation do
     end
   end
 
+  def choose_mode(deps) do
+    mode =
+      deps.io.retrieve(deps.messages.get_message(:choose_token))
+      |> deps.validation.clean()
+      |> String.upcase()
+
+    case mode do
+      "1" ->
+        mode
+
+      "2" ->
+        mode
+
+      "3" ->
+        mode
+
+      _ ->
+        choose_mode(deps)
+    end
+  end
+
   def space_on_board?(move) do
     cond do
       user_move_to_internal_state(move) == {:error, :nonexistant_space} ->
@@ -88,6 +109,21 @@ defmodule MockMessages do
 
   def welcome do
     "welcome"
+  end
+
+  def get_message(term) do
+    messages = %{
+      welcome: "Welcome to Tic Tac Toe!",
+      choose: "Please choose a spot by entering 1 - 9: ",
+      choose_token: "Please choose your token (enter \"X\" or \"O\"): ",
+      nonexistant_space: "I'm sorry, that space doesn't exist on the board, please choose again",
+      space_taken: "I'm sorry, that space is taken, please choose again",
+      nan: "I'm sorry, that is not a number, please enter a number",
+      tie: "The game is a tie!",
+      opponent_move: "Opponent's turn:"
+    }
+
+    messages[term]
   end
 end
 

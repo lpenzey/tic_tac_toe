@@ -47,6 +47,21 @@ defmodule ValidationTest do
     test "identifies if input is not an existing space on the board" do
       assert Validation.space_on_board?("10") == {:error, :nonexistant_space}
     end
+
+    test "cycles through invalid mode types until valid entry", context do
+      Helpers.Stack.setup(["foo\n", "hi!\n", "6\n", "1\n"])
+
+      mock_deps = %{
+        validation: MockValidation,
+        messages: MockMessages,
+        io: MockTTT.IO,
+        player: Player
+      }
+
+      assert Validation.choose_mode(mock_deps) == "1"
+
+      Helpers.Stack.teardown()
+    end
   end
 
   describe "when input is valid" do

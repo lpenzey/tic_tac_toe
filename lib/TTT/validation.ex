@@ -38,6 +38,23 @@ defmodule Validation do
     end
   end
 
+  def choose_mode(deps) do
+    mode =
+      deps.io.retrieve(deps.messages.get_message(:choose_mode))
+      |> deps.validation.clean()
+
+    case mode do
+      "1" ->
+        mode
+
+      "2" ->
+        mode
+
+      _ ->
+        choose_mode(deps)
+    end
+  end
+
   def space_on_board?(move) do
     cond do
       user_move_to_internal_state(move) == {:error, :nonexistant_space} ->

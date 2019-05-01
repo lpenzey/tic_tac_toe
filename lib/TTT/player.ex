@@ -14,19 +14,11 @@ defmodule Player do
     end
   end
 
-  def make_move(state) do
-    cond do
-      select_move(state) !== {:error, "empty error"} ->
-        select_move(state)
-        |> State.set_move(state)
-
-      select_move(state) == {:error, "empty error"} ->
-        state
-    end
-  end
-
   def choose_token(deps) do
-    token = deps.io.retrieve(:choose_token) |> deps.validation.clean() |> String.upcase()
+    token =
+      deps.io.retrieve(deps.messages.get_message(:choose_token))
+      |> deps.validation.clean()
+      |> String.upcase()
 
     case token do
       "X" ->
@@ -55,8 +47,12 @@ defmodule Player do
     end
   end
 
-  def place_move(move, state) do
+  def place_move(move, state) when is_integer(move) do
     Validation.user_move_to_internal_state(move)
     |> State.set_move(state)
+  end
+
+  def place_move(move, state) when is_tuple(move) do
+    State.set_move(move, state)
   end
 end

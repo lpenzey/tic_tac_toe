@@ -89,13 +89,6 @@ defmodule PlayerTest do
       move = Player.select_move(context[:initial_state])
       assert Map.fetch!(Player.available_moves(context[:initial_state]), move)
     end
-
-    test "enters move into board state", context do
-      computer_move_state = Player.make_move(context[:initial_state])
-      board_values = Map.values(computer_move_state.board)
-
-      assert Enum.find(board_values, fn x -> x == "X" end) == "X"
-    end
   end
 
   describe "when board has one move" do
@@ -193,10 +186,6 @@ defmodule PlayerTest do
     test "returns empty error message", context do
       assert Player.select_move(context[:full_board_state]) ==
                {:error, "empty error"}
-    end
-
-    test "returns state when board is full", context do
-      assert Player.make_move(context[:full_board_state]) == context[:full_board_state]
     end
   end
 
