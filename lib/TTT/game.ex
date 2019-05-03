@@ -1,4 +1,6 @@
 defmodule Game do
+  @input_output Application.get_env(:tic_tac_toe, :console_io)
+
   def init(player_token \\ "X") do
     %State{player: player_token}
   end
@@ -7,8 +9,12 @@ defmodule Game do
   def select_mode(mode) when mode == "2", do: :human_v_computer
 
   def over(state) do
-    Messages.display_board(state)
-    Messages.end_of_game(state)
+    over(@input_output, state)
+  end
+
+  def over(io, state) do
+    Messages.display_board(io, state, :console)
+    Messages.end_of_game(io, state)
   end
 
   def play(state, deps, mode) when mode == :human_v_human do

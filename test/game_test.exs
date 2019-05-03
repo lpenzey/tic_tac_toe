@@ -142,7 +142,7 @@ defmodule GameTest do
     end
 
     test "outputs win message", context do
-      end_of_game = capture_io(fn -> Game.over(context[:winning_game_state]) end)
+      end_of_game = capture_io(fn -> Game.over(IO, context[:winning_game_state]) end)
 
       assert String.contains?(end_of_game, "win")
     end

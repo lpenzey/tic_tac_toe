@@ -18,8 +18,12 @@ defmodule Messages do
     messages[term]
   end
 
-  def display_board(state, _client \\ :console) do
-    @input_output.puts(ConsoleBoardPresenter.build(state))
+  def display_board(io, state, client) do
+    io.puts(ConsoleBoardPresenter.build(state))
+  end
+
+  def display_board(state, client \\ :console) do
+    display_board(@input_output, state, client)
     state
   end
 
@@ -33,13 +37,17 @@ defmodule Messages do
   end
 
   def end_of_game(state) do
+    end_of_game(@input_output, state)
+  end
+
+  def end_of_game(io, state) do
     cond do
       Status.win?(State.get_board(state)) ->
         winner = Status.winner(State.get_board(state))
-        @input_output.puts("Congratulations to #{winner} for winning the game!")
+        io.puts("Congratulations to #{winner} for winning the game!")
 
       Status.tie(State.get_board(state)) ->
-        @input_output.puts(get_message(:tie))
+        io.puts(get_message(:tie))
     end
   end
 end
