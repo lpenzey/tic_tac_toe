@@ -14,14 +14,14 @@ defmodule Game do
   def play(state, deps, mode) when mode == :human_v_human do
     deps.messages.display_board(state)
 
-    move(state, deps)
+    human_move(state, deps)
     |> check_status(deps, :human_v_human)
   end
 
   def play(state, deps, mode) when mode == :human_v_computer do
     deps.messages.display_board(state)
 
-    move(state, deps)
+    human_move(state, deps)
     |> computer_move()
     |> check_status(deps, :human_v_computer)
   end
@@ -36,7 +36,7 @@ defmodule Game do
     end
   end
 
-  def move(state, deps) do
+  def human_move(state, deps) do
     deps.io.retrieve(deps.messages.get_message(:choose))
     |> deps.validation.sanitized_move()
     |> deps.player.analyze(state, deps)
