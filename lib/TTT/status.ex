@@ -1,10 +1,4 @@
 defmodule Status do
-  def board_dimension(board) do
-    map_size(board)
-    |> :math.sqrt()
-    |> round()
-  end
-
   def win?(board) do
     Enum.any?(win_combinations(board), fn winning_combination ->
       Map.take(board, winning_combination)
@@ -57,36 +51,42 @@ defmodule Status do
     end)
   end
 
-  def winning_triplet?(["X", "X", "X"]), do: true
-  def winning_triplet?(["O", "O", "O"]), do: true
-  def winning_triplet?(_), do: false
+  defp winning_triplet?(["X", "X", "X"]), do: true
+  defp winning_triplet?(["O", "O", "O"]), do: true
+  defp winning_triplet?(_), do: false
 
   def win_combinations(board) do
     rows(board) ++ columns(board) ++ diagonals(board)
   end
 
-  def rows(board) do
+  defp board_dimension(board) do
+    map_size(board)
+    |> :math.sqrt()
+    |> round()
+  end
+
+  defp rows(board) do
     Map.keys(board)
     |> Enum.chunk_every(board_dimension(board))
   end
 
-  def columns(board) do
+  defp columns(board) do
     rows(board)
     |> List.zip()
     |> Enum.map(&Tuple.to_list/1)
   end
 
-  def diagonals(board) do
+  defp diagonals(board) do
     [first_diagonal(board) | [second_diagonal(board)]]
   end
 
-  def first_diagonal(board) do
+  defp first_diagonal(board) do
     rows(board)
     |> Enum.with_index()
     |> Enum.map(fn {row, index} -> Enum.at(row, index) end)
   end
 
-  def second_diagonal(board) do
+  defp second_diagonal(board) do
     rows(board)
     |> Enum.reverse()
     |> Enum.with_index()

@@ -19,41 +19,6 @@ defmodule StatusTest do
       }
     end
 
-    test "finds board dimension", context do
-      assert Status.board_dimension(context[:initial_board]) == 3
-    end
-
-    test "generates row triplets", context do
-      assert Status.rows(context[:initial_board]) == [
-               [{0, 0}, {0, 1}, {0, 2}],
-               [{1, 0}, {1, 1}, {1, 2}],
-               [{2, 0}, {2, 1}, {2, 2}]
-             ]
-    end
-
-    test "generates column triplets", context do
-      assert Status.columns(context[:initial_board]) == [
-               [{0, 0}, {1, 0}, {2, 0}],
-               [{0, 1}, {1, 1}, {2, 1}],
-               [{0, 2}, {1, 2}, {2, 2}]
-             ]
-    end
-
-    test "generates first diagonal triplets", context do
-      assert Status.first_diagonal(context[:initial_board]) ==
-               [{0, 0}, {1, 1}, {2, 2}]
-    end
-
-    test "generates second diagonal triplets", context do
-      assert Status.second_diagonal(context[:initial_board]) ==
-               [{2, 0}, {1, 1}, {0, 2}]
-    end
-
-    test "generates both diagonal triplets", context do
-      assert Status.diagonals(context[:initial_board]) ==
-               [[{0, 0}, {1, 1}, {2, 2}], [{2, 0}, {1, 1}, {0, 2}]]
-    end
-
     test "generates all winning combinations for 3x3 board", context do
       assert Status.win_combinations(context[:initial_board]) ==
                [
