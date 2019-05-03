@@ -24,11 +24,11 @@ defmodule Messages do
   end
 
   def welcome do
-    @input_output.puts(Messages.get_message(:welcome))
+    @input_output.puts(get_message(:welcome))
   end
 
   def display_message(state, message) do
-    @input_output.puts(Messages.get_message(message))
+    @input_output.puts(get_message(message))
     state
   end
 

@@ -1,9 +1,4 @@
 defmodule ConsoleBoardPresenter do
-  def gen_values(state) do
-    State.get_board(state)
-    |> Map.values()
-  end
-
   def build(state) do
     moves = gen_values(state)
 
@@ -65,5 +60,10 @@ defmodule ConsoleBoardPresenter do
       }#{square[:span]}#{square[:bottom_right]}"
 
     ~s(#{row1}#{row2}#{row3}#{row4}#{row5}#{row6}#{row7})
+  end
+
+  defp gen_values(state) do
+    State.get_board(state)
+    |> Map.values()
   end
 end

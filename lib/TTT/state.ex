@@ -36,7 +36,7 @@ defmodule State do
     }
   end
 
-  def switch_player("X"), do: "O"
+  defp switch_player("X"), do: "O"
 
-  def switch_player("O"), do: "X"
+  defp switch_player("O"), do: "X"
 end

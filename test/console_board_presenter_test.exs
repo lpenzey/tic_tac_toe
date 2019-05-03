@@ -22,20 +22,6 @@ defmodule ConsoleBoardPresenterTest do
       }
     end
 
-    test "gets initial game values", context do
-      assert ConsoleBoardPresenter.gen_values(context[:empty_board_state]) == [
-               1,
-               2,
-               3,
-               4,
-               5,
-               6,
-               7,
-               8,
-               9
-             ]
-    end
-
     test "builds an empty 3x3 board", context do
       assert ConsoleBoardPresenter.build(context[:empty_board_state]) ==
                "┌───┬───┬───┐\n│ 1 │ 2 │ 3 │\n├───┼───┼───┤\n│ 4 │ 5 │ 6 │\n├───┼───┼───┤\n│ 7 │ 8 │ 9 │\n└───┴───┴───┘"
@@ -62,20 +48,6 @@ defmodule ConsoleBoardPresenterTest do
       }
     end
 
-    test "gets updated board values", context do
-      assert ConsoleBoardPresenter.gen_values(context[:one_move_board_state]) == [
-               "X",
-               2,
-               3,
-               4,
-               5,
-               6,
-               7,
-               8,
-               9
-             ]
-    end
-
     test "builds a 3x3 board with a user move", context do
       assert ConsoleBoardPresenter.build(context[:one_move_board_state]) ==
                "┌───┬───┬───┐\n│ X │ 2 │ 3 │\n├───┼───┼───┤\n│ 4 │ 5 │ 6 │\n├───┼───┼───┤\n│ 7 │ 8 │ 9 │\n└───┴───┴───┘"
@@ -100,20 +72,6 @@ defmodule ConsoleBoardPresenterTest do
           player: "X"
         }
       }
-    end
-
-    test "gets updated board values", context do
-      assert ConsoleBoardPresenter.gen_values(context[:full_board_state]) == [
-               "X",
-               "O",
-               "X",
-               "O",
-               "X",
-               "O",
-               "X",
-               "O",
-               "X"
-             ]
     end
 
     test "builds a 3x3 board with all moves completed", context do

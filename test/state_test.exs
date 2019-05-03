@@ -56,15 +56,6 @@ defmodule StateTest do
            }
   end
 
-  test "switch player symbol from \"X\" to \"O\"", context do
-    assert State.switch_player(context[:empty_board_state].player) == "O"
-  end
-
-  test "switch player symbol from \"O\" to \"X\"" do
-    player_O_state = %State{player: "O"}
-    assert State.switch_player(player_O_state.player) == "X"
-  end
-
   test "sets player symbol \"X\" in board and switches player symbol to \"O\"", context do
     move = {0, 0}
 

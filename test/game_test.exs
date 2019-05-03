@@ -92,23 +92,6 @@ defmodule GameTest do
         }
       }
     end
-
-    test "finds only available space and enters move", context do
-      assert Game.computer_move(context[:one_move_away_state]) == %State{
-               board: %{
-                 {0, 0} => "X",
-                 {0, 1} => "O",
-                 {0, 2} => "X",
-                 {1, 0} => "O",
-                 {1, 1} => "X",
-                 {1, 2} => "O",
-                 {2, 0} => "O",
-                 {2, 1} => "X",
-                 {2, 2} => "X"
-               },
-               player: "O"
-             }
-    end
   end
 
   describe "when game is a tie" do
