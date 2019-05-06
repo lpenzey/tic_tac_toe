@@ -1,4 +1,6 @@
 defmodule Status do
+  @p1_token "X"
+  @p2_token "O"
   def win?(board) do
     Enum.any?(win_combinations(board), fn winning_combination ->
       Map.take(board, winning_combination)
@@ -51,8 +53,8 @@ defmodule Status do
     end)
   end
 
-  defp winning_triplet?(["X", "X", "X"]), do: true
-  defp winning_triplet?(["O", "O", "O"]), do: true
+  defp winning_triplet?([@p1_token, @p1_token, @p1_token]), do: true
+  defp winning_triplet?([@p2_token, @p2_token, @p2_token]), do: true
   defp winning_triplet?(_), do: false
 
   def win_combinations(board) do
