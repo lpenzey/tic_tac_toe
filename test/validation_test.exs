@@ -48,7 +48,7 @@ defmodule ValidationTest do
       assert Validation.space_on_board?("10") == {:error, :nonexistant_space}
     end
 
-    test "cycles through invalid mode types until valid entry", context do
+    test "cycles through invalid mode types until valid entry" do
       Helpers.Stack.setup(["foo\n", "hi!\n", "6\n", "1\n"])
 
       mock_deps = %{

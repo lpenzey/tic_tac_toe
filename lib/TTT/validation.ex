@@ -21,8 +21,8 @@ defmodule Validation do
 
   def choose_mode(deps) do
     mode =
-      deps.io.retrieve(deps.messages.get_message(:choose_mode))
-      |> deps.validation.clean()
+      deps.io.retrieve(Messages.get_message(:choose_mode))
+      |> Validation.clean()
 
     case mode do
       "1" ->
@@ -63,7 +63,7 @@ defmodule Validation do
     end
   end
 
-  defp clean(input) do
+  def clean(input) do
     String.trim(input)
   end
 

@@ -24,10 +24,7 @@ defmodule PlayerTest do
 
     test "rejects invalid moves until valid move is entered", context do
       mock_deps = %{
-        validation: MockValidation,
-        messages: MockMessages,
-        io: MockTTT.IO,
-        player: MockPlayer
+        io: MockTTT.IO
       }
 
       Helpers.Stack.setup(["foo", "10\n", "1\n", "4\n"])

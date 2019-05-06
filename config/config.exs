@@ -4,10 +4,7 @@ use Mix.Config
 config :tic_tac_toe, :console_io, IO
 
 config :tic_tac_toe, :deps, %{
-  validation: Validation,
-  messages: Messages,
-  io: TTT.IO,
-  player: Player
+  io: TTT.IO
 }
 
 import_config "#{Mix.env()}.exs"

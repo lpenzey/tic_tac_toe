@@ -1,31 +1,32 @@
 defmodule Game do
-  @input_output Application.get_env(:tic_tac_toe, :console_io)
-
   def init(player_token \\ "X") do
     %State{player: player_token}
+  end
+
+  def start(deps) do
+    deps.io.display(Messages.get_message(:welcome))
+    mode = select_mode(Validation.choose_mode(deps))
+    state = init(Player.choose_token(deps))
+    Game.play(state, deps, mode)
   end
 
   def select_mode(mode) when mode == "1", do: :human_v_human
   def select_mode(mode) when mode == "2", do: :human_v_computer
 
-  def over(state) do
-    over(@input_output, state)
-  end
-
   def over(io, state) do
-    Messages.display_board(io, state, :console)
+    Messages.display_board(io, state)
     Messages.end_of_game(io, state)
   end
 
   def play(state, deps, mode) when mode == :human_v_human do
-    deps.messages.display_board(state)
+    Messages.display_board(deps.io, state)
 
     human_move(state, deps)
     |> check_status(deps, :human_v_human)
   end
 
   def play(state, deps, mode) when mode == :human_v_computer do
-    deps.messages.display_board(state)
+    Messages.display_board(deps.io, state)
 
     human_move(state, deps)
     |> computer_move()
@@ -38,14 +39,14 @@ defmodule Game do
         play(state, deps, mode)
 
       Status.over(State.get_board(state)) == :game_over ->
-        over(state)
+        over(deps.io, state)
     end
   end
 
   def human_move(state, deps) do
-    deps.io.retrieve(deps.messages.get_message(:choose))
-    |> deps.validation.sanitized_move()
-    |> deps.player.analyze(state, deps)
+    deps.io.retrieve(Messages.get_message(:choose))
+    |> Validation.sanitized_move()
+    |> Player.analyze(state, deps)
   end
 
   def computer_move(state) do

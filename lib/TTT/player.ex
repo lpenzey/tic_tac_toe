@@ -16,8 +16,8 @@ defmodule Player do
 
   def choose_token(deps) do
     token =
-      deps.io.retrieve(deps.messages.get_message(:choose_token))
-      |> deps.validation.clean()
+      deps.io.retrieve(Messages.get_message(:choose_token))
+      |> Validation.clean()
       |> String.upcase()
 
     case token do
@@ -33,17 +33,17 @@ defmodule Player do
   end
 
   def analyze(move, state, deps) do
-    with {:ok, :space_on_board} <- deps.validation.space_on_board?(move),
-         {:ok, :is_open} <- deps.validation.open?(move, state) do
+    with {:ok, :space_on_board} <- Validation.space_on_board?(move),
+         {:ok, :is_open} <- Validation.open?(move, state) do
       place_move(move, state)
     else
       {:error, :nonexistant_space} ->
-        deps.messages.display_message(state, :nonexistant_space)
-        deps.io.retrieve(:choose) |> deps.validation.sanitized_move() |> analyze(state, deps)
+        Messages.display_message(deps.io, :nonexistant_space)
+        deps.io.retrieve(:choose) |> Validation.sanitized_move() |> analyze(state, deps)
 
       {:error, :space_taken} ->
-        deps.messages.display_message(state, :space_taken)
-        deps.io.retrieve(:choose) |> deps.validation.sanitized_move() |> analyze(state, deps)
+        Messages.display_message(deps.io, :space_taken)
+        deps.io.retrieve(:choose) |> Validation.sanitized_move() |> analyze(state, deps)
     end
   end
 

@@ -1,8 +1,6 @@
 defmodule TTT.IOTest do
   use ExUnit.Case
 
-  import ExUnit.CaptureIO
-
   test "retrieve gets user's input" do
     Helpers.Stack.setup(["user input"])
 
@@ -12,7 +10,6 @@ defmodule TTT.IOTest do
   end
 
   test "outputs a message" do
-    message = capture_io(fn -> TTT.IO.display("hi") end)
-    assert message == "hi\n"
+    assert TTT.IO.display(MockTTT.IO, "hi") == "hi"
   end
 end

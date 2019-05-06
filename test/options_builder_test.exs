@@ -3,10 +3,7 @@ defmodule OptionsBuilderTest do
 
   test "builds test dependencies" do
     assert OptionsBuilder.init() == %{
-             validation: MockValidation,
-             messages: MockMessages,
-             io: MockTTT.IO,
-             player: Player
+             io: MockTTT.IO
            }
   end
 end

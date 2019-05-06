@@ -2,8 +2,6 @@ defmodule GameTest do
   use ExUnit.Case
   doctest Game
 
-  import ExUnit.CaptureIO
-
   describe "when game has begun" do
     setup do
       %{
@@ -39,17 +37,12 @@ defmodule GameTest do
     test "cycles through moves in human vs. human until a player wins or ties", context do
       Helpers.Stack.setup(["1\n", "2\n", "3\n", "4\n", "5\n", "6\n", "7\n", "8\n", "9\n"])
 
-      mock_deps = %{
-        validation: MockValidation,
-        messages: MockMessages,
-        io: MockTTT.IO,
-        player: Player
-      }
+      mock_deps = %{io: MockTTT.IO}
 
-      game_status =
-        capture_io(fn -> Game.play(context[:initial_game_state], mock_deps, :human_v_human) end)
-
-      assert String.contains?(game_status, "game")
+      assert Regex.match?(
+               ~r/game/,
+               Game.play(context[:initial_game_state], mock_deps, :human_v_human)
+             )
 
       Helpers.Stack.teardown()
     end
@@ -58,16 +51,16 @@ defmodule GameTest do
       Helpers.Stack.setup(["1\n", "2\n", "3\n", "4\n", "5\n", "6\n", "7\n", "8\n", "9\n"])
 
       mock_deps = %{
-        validation: MockValidation,
-        messages: MockMessages,
+        validation: Validation,
+        messages: Messages,
         io: MockTTT.IO,
         player: Player
       }
 
-      game_status =
-        capture_io(fn -> Game.play(context[:initial_game_state], mock_deps, :human_v_computer) end)
-
-      assert String.contains?(game_status, "game")
+      assert Regex.match?(
+               ~r/game/,
+               Game.play(context[:initial_game_state], mock_deps, :human_v_computer)
+             )
 
       Helpers.Stack.teardown()
     end
@@ -115,9 +108,7 @@ defmodule GameTest do
     end
 
     test "outputs tie message", context do
-      end_of_game = capture_io(fn -> Game.over(context[:tie_game_state]) end)
-
-      assert String.contains?(end_of_game, "tie")
+      assert Regex.match?(~r/tie/, Game.over(MockTTT.IO, context[:tie_game_state]))
     end
   end
 
@@ -142,9 +133,7 @@ defmodule GameTest do
     end
 
     test "outputs win message", context do
-      end_of_game = capture_io(fn -> Game.over(IO, context[:winning_game_state]) end)
-
-      assert String.contains?(end_of_game, "win")
+      assert Regex.match?(~r/win/, Game.over(MockTTT.IO, context[:winning_game_state]))
     end
   end
 end
