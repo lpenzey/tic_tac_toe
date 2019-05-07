@@ -17,17 +17,30 @@ defmodule GameTest do
             {2, 1} => 8,
             {2, 2} => 9
           },
-          player: "X"
+          player: "X",
+          opponent: "O",
+          current_player: "X"
         }
       }
     end
 
-    test "initializes game with player token \"X\"" do
-      assert Game.init().player == "X"
-    end
-
-    test "initializes game with player token \"O\"" do
-      assert Game.init("O").player == "O"
+    test "initializes game with player token \"a\" opponent token \"b\" and current player \"a\"" do
+      assert Game.set_tokens("a", "b") == %State{
+               board: %{
+                 {0, 0} => 1,
+                 {0, 1} => 2,
+                 {0, 2} => 3,
+                 {1, 0} => 4,
+                 {1, 1} => 5,
+                 {1, 2} => 6,
+                 {2, 0} => 7,
+                 {2, 1} => 8,
+                 {2, 2} => 9
+               },
+               current_player: "a",
+               opponent: "b",
+               player: "a"
+             }
     end
 
     test "returns game mode attribute" do

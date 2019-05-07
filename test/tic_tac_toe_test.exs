@@ -25,7 +25,8 @@ defmodule TicTacToeTest do
     test "cycles through moves until the game ends" do
       Helpers.Stack.setup([
         "1\n",
-        "x\n",
+        "a\n",
+        "b\n",
         "1\n",
         "2\n",
         "3\n",

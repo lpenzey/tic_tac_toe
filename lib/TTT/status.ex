@@ -1,11 +1,9 @@
 defmodule Status do
-  @p1_token "X"
-  @p2_token "O"
   def win?(board) do
     Enum.any?(win_combinations(board), fn winning_combination ->
       Map.take(board, winning_combination)
       |> Map.values()
-      |> winning_triplet?
+      |> winning_combo?
     end)
   end
 
@@ -49,13 +47,17 @@ defmodule Status do
     Enum.filter(win_combinations(board), fn winning_combination ->
       Map.take(board, winning_combination)
       |> Map.values()
-      |> winning_triplet?()
+      |> winning_combo?()
     end)
   end
 
-  defp winning_triplet?([@p1_token, @p1_token, @p1_token]), do: true
-  defp winning_triplet?([@p2_token, @p2_token, @p2_token]), do: true
-  defp winning_triplet?(_), do: false
+  defp winning_combo?(combo) do
+    if Enum.count(Enum.dedup(combo)) == 1 do
+      true
+    else
+      false
+    end
+  end
 
   def win_combinations(board) do
     rows(board) ++ columns(board) ++ diagonals(board)

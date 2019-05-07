@@ -1,13 +1,15 @@
 defmodule Game do
-  def init(player_token \\ "X") do
-    %State{player: player_token}
+  def set_tokens(player, opponent) do
+    %State{player: player, opponent: opponent, current_player: player}
   end
 
   def start(deps) do
     deps.io.display(Messages.get_message(:welcome))
     mode = select_mode(Validation.choose_mode(deps))
-    state = init(Player.choose_token(deps))
-    Game.play(state, deps, mode)
+    player_token = Player.choose_token(deps)
+    opponent_symbol = Player.choose_token(deps, player_token)
+    state = set_tokens(player_token, opponent_symbol)
+    play(state, deps, mode)
   end
 
   def select_mode(mode) when mode == "1", do: :human_v_human

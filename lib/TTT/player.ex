@@ -18,17 +18,20 @@ defmodule Player do
     token =
       deps.io.retrieve(Messages.get_message(:choose_token))
       |> Validation.clean()
-      |> String.upcase()
 
-    case token do
-      "X" ->
-        token
+    token
+  end
 
-      "O" ->
-        token
+  def choose_token(deps, player_token) do
+    token =
+      deps.io.retrieve(Messages.get_message(:choose_opponent_token))
+      |> Validation.clean()
 
-      _ ->
-        choose_token(deps)
+    if token == player_token do
+      deps.io.display(Messages.get_message(:same_token))
+      choose_token(deps, player_token)
+    else
+      token
     end
   end
 

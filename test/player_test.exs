@@ -17,7 +17,9 @@ defmodule PlayerTest do
             {2, 1} => 8,
             {2, 2} => 9
           },
-          player: "X"
+          player: "X",
+          opponent: "O",
+          current_player: "O"
         }
       }
     end
@@ -34,14 +36,16 @@ defmodule PlayerTest do
                  {0, 0} => "X",
                  {0, 1} => "O",
                  {0, 2} => "X",
-                 {1, 0} => "X",
+                 {1, 0} => "O",
                  {1, 1} => 5,
                  {1, 2} => 6,
                  {2, 0} => 7,
                  {2, 1} => 8,
                  {2, 2} => 9
                },
-               player: "O"
+               player: "X",
+               opponent: "O",
+               current_player: "X"
              }
 
       Helpers.Stack.teardown()
@@ -184,35 +188,5 @@ defmodule PlayerTest do
       assert Player.select_move(context[:full_board_state]) ==
                {:error, "empty error"}
     end
-  end
-
-  test "rejects invalid input until user selects \"X\"" do
-    Helpers.Stack.setup(["foo", "10\n", "1\n", "4\n", "x\n"])
-
-    mock_deps = %{
-      validation: MockValidation,
-      messages: MockMessages,
-      io: MockTTT.IO,
-      human_player: MockHumanPlayer
-    }
-
-    assert Player.choose_token(mock_deps) == "X"
-
-    Helpers.Stack.teardown()
-  end
-
-  test "rejects invalid input until user selects \"O\"" do
-    Helpers.Stack.setup(["foo", "10\n", "1\n", "4\n", "o\n"])
-
-    mock_deps = %{
-      validation: MockValidation,
-      messages: MockMessages,
-      io: MockTTT.IO,
-      human_player: MockHumanPlayer
-    }
-
-    assert Player.choose_token(mock_deps) == "O"
-
-    Helpers.Stack.teardown()
   end
 end
