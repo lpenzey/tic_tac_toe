@@ -1,12 +1,6 @@
 ExUnit.start()
 
-defmodule MockHumanPlayer do
-  def choose_token(_deps) do
-    "X"
-  end
-end
-
-defmodule MockInput do
+defmodule MockTTT.IO do
   def retrieve(message) do
     gets(message)
   end
@@ -15,35 +9,12 @@ defmodule MockInput do
     Helpers.Stack.pop()
   end
 
-  def clean(input) do
-    String.trim(input)
+  def display(message) do
+    puts(message)
   end
 
-  def sanitized_move(input) do
-    clean(input)
-    |> to_int()
-  end
-
-  def to_int(input) do
-    try do
-      String.to_integer(input)
-    rescue
-      ArgumentError -> {:error, :not_a_number}
-    end
-  end
-end
-
-defmodule MockOutput do
-  def display_message(state, _message) do
-    state
-  end
-
-  def display_board(state) do
-    state
-  end
-
-  def welcome do
-    "welcome"
+  def puts(message) do
+    message
   end
 end
 

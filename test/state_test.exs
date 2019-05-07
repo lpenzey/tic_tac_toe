@@ -56,29 +56,6 @@ defmodule StateTest do
            }
   end
 
-  test "can convert move to internal state" do
-    assert State.user_move_to_internal_state(1) == {0, 0}
-  end
-
-  test "returns nonexistant space error if input is nan" do
-    assert State.user_move_to_internal_state("a") ==
-             {:error, :nonexistant_space}
-  end
-
-  test "identifies input as not matching an existing space" do
-    assert State.user_move_to_internal_state("10") ==
-             {:error, :nonexistant_space}
-  end
-
-  test "switch player symbol from \"X\" to \"O\"", context do
-    assert State.switch_player(context[:empty_board_state].player) == "O"
-  end
-
-  test "switch player symbol from \"O\" to \"X\"" do
-    player_O_state = %State{player: "O"}
-    assert State.switch_player(player_O_state.player) == "X"
-  end
-
   test "sets player symbol \"X\" in board and switches player symbol to \"O\"", context do
     move = {0, 0}
 

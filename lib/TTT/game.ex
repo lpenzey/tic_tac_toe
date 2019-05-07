@@ -1,38 +1,63 @@
 defmodule Game do
-  def init(token \\ "X") do
-    %State{player: token}
+  def init(player_token \\ "X") do
+    %State{player: player_token}
   end
 
-  def over(state) do
-    Output.display_board(state)
-    Output.end_of_game(state)
+  def start(deps) do
+    deps.io.display(Messages.get_message(:welcome))
+    mode = select_mode(Validation.choose_mode(deps))
+    state = init(Player.choose_token(deps))
+    Game.play(state, deps, mode)
   end
 
-  def play(state, deps) do
-    deps.output.display_board(state)
+  def select_mode(mode) when mode == "1", do: :human_v_human
+  def select_mode(mode) when mode == "2", do: :human_v_computer
 
-    new_state =
-      human_move(state, deps)
-      |> deps.output.display_board()
-      |> computer_move()
-      |> deps.output.display_message(:opponent_move)
+  def over(io, state) do
+    Messages.display_board(io, state)
+    Messages.end_of_game(io, state)
+  end
 
+  def play(state, deps, mode) when mode == :human_v_human do
+    Messages.display_board(deps.io, state)
+
+    human_move(state, deps)
+    |> check_status(deps, :human_v_human)
+  end
+
+  def play(state, deps, mode) when mode == :human_v_computer do
+    Messages.display_board(deps.io, state)
+
+    human_move(state, deps)
+    |> computer_move()
+    |> check_status(deps, :human_v_computer)
+  end
+
+  def check_status(state, deps, mode) do
     cond do
-      Status.over(State.get_board(new_state)) == :game_in_progress ->
-        play(new_state, deps)
+      Status.over(State.get_board(state)) == :game_in_progress ->
+        play(state, deps, mode)
 
-      Status.over(State.get_board(new_state)) == :game_over ->
-        over(new_state)
+      Status.over(State.get_board(state)) == :game_over ->
+        over(deps.io, state)
     end
   end
 
   def human_move(state, deps) do
-    deps.input.retrieve(:choose)
-    |> deps.input.sanitized_move()
-    |> HumanPlayer.analyze(state, deps)
+    deps.io.retrieve(Messages.get_message(:choose))
+    |> Validation.sanitized_move()
+    |> Player.analyze(state, deps)
   end
 
   def computer_move(state) do
-    ComputerPlayer.make_move(state)
+    move = Player.select_move(state)
+
+    case move do
+      {:error, "empty error"} ->
+        state
+
+      _ ->
+        Player.place_move(move, state)
+    end
   end
 end

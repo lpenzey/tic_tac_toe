@@ -2,8 +2,6 @@ defmodule TicTacToeTest do
   use ExUnit.Case
   doctest TicTacToe
 
-  import ExUnit.CaptureIO
-
   describe "before a game has begun" do
     setup do
       %{
@@ -25,11 +23,21 @@ defmodule TicTacToeTest do
     end
 
     test "cycles through moves until the game ends" do
-      Helpers.Stack.setup(["x\n", "1\n", "2\n", "3\n", "4\n", "5\n", "6\n", "7\n", "8\n", "9\n"])
+      Helpers.Stack.setup([
+        "1\n",
+        "x\n",
+        "1\n",
+        "2\n",
+        "3\n",
+        "4\n",
+        "5\n",
+        "6\n",
+        "7\n",
+        "8\n",
+        "9\n"
+      ])
 
-      end_game_status = capture_io(fn -> TicTacToe.main() end)
-
-      assert String.contains?(end_game_status, "game")
+      assert Regex.match?(~r/game/, TicTacToe.main())
 
       Helpers.Stack.teardown()
     end
