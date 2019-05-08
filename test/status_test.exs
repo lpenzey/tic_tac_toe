@@ -215,5 +215,9 @@ defmodule StatusTest do
     test "game is over", context do
       assert Status.over(context[:tie_board]) == :game_over
     end
+
+    test "winner returns nil when called on a tie game", context do
+      assert Status.winner(context[:tie_board]) == nil
+    end
   end
 end
