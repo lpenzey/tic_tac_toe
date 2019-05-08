@@ -31,6 +31,9 @@ defmodule Validation do
       "2" ->
         mode
 
+      "3" ->
+        mode
+
       _ ->
         choose_mode(deps)
     end

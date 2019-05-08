@@ -6,7 +6,7 @@ defmodule Messages do
       choose_token: "Please choose your symbol: ",
       choose_opponent_token: "Please choose the opponent's symbol: ",
       choose_mode:
-        "Please choose game mode\nEnter \"1\" to play against a friend\nEnter \"2\" to play against the computer: ",
+        "Please choose game mode\nEnter \"1\" to play against a friend\nEnter \"2\" to play against an easy computer\nEnter \"3\" to play against an unbeatable computer: ",
       nonexistant_space: "I'm sorry, that space doesn't exist on the board, please choose again",
       space_taken: "I'm sorry, that space is taken, please choose again",
       nan: "I'm sorry, that is not a number, please enter a number",

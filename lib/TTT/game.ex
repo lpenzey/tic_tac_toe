@@ -1,6 +1,6 @@
 defmodule Game do
-  def set_tokens(player, opponent) do
-    %State{player: player, opponent: opponent, current_player: player}
+  def set_options(player, opponent, mode) do
+    %State{player: player, opponent: opponent, current_player: player, mode: mode}
   end
 
   def start(deps) do
@@ -8,31 +8,41 @@ defmodule Game do
     mode = select_mode(Validation.choose_mode(deps))
     player_token = Player.choose_token(deps)
     opponent_symbol = Player.choose_token(deps, player_token)
-    state = set_tokens(player_token, opponent_symbol)
+    state = set_options(player_token, opponent_symbol, mode)
     play(state, deps, mode)
   end
 
   def select_mode(mode) when mode == "1", do: :human_v_human
-  def select_mode(mode) when mode == "2", do: :human_v_computer
+  def select_mode(mode) when mode == "2", do: :human_v_easy_computer
+  def select_mode(mode) when mode == "3", do: :human_v_hard_computer
 
   def over(io, state) do
     Messages.display_board(io, state)
     Messages.end_of_game(io, state)
   end
 
-  def play(state, deps, mode) when mode == :human_v_human do
-    Messages.display_board(deps.io, state)
+  def play(state, deps, mode) do
+    case mode do
+      :human_v_human ->
+        Messages.display_board(deps.io, state)
 
-    human_move(state, deps)
-    |> check_status(deps, :human_v_human)
-  end
+        human_move(state, deps)
+        |> check_status(deps, :human_v_human)
 
-  def play(state, deps, mode) when mode == :human_v_computer do
-    Messages.display_board(deps.io, state)
+      :human_v_easy_computer ->
+        Messages.display_board(deps.io, state)
 
-    human_move(state, deps)
-    |> computer_move()
-    |> check_status(deps, :human_v_computer)
+        human_move(state, deps)
+        |> easy_computer_move()
+        |> check_status(deps, :human_v_easy_computer)
+
+      :human_v_hard_computer ->
+        Messages.display_board(deps.io, state)
+
+        human_move(state, deps)
+        |> hard_computer_move()
+        |> check_status(deps, :human_v_hard_computer)
+    end
   end
 
   def check_status(state, deps, mode) do
@@ -46,12 +56,29 @@ defmodule Game do
   end
 
   def human_move(state, deps) do
-    deps.io.retrieve(Messages.get_message(:choose))
+    deps.io.retrieve(state.current_player <> Messages.get_message(:choose))
     |> Validation.sanitized_move()
     |> Player.analyze(state, deps)
   end
 
-  def computer_move(state) do
+  def hard_computer_move(state) do
+    move =
+      try do
+        Minimax.minimax(state).position
+      rescue
+        e in KeyError -> {:error, e}
+      end
+
+    case move do
+      {:error, _} ->
+        state
+
+      _ ->
+        Player.place_move(move, state)
+    end
+  end
+
+  def easy_computer_move(state) do
     move = Player.select_move(state)
 
     case move do

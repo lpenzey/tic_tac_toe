@@ -2,6 +2,7 @@ defmodule State do
   defstruct player: "",
             opponent: "",
             current_player: "",
+            mode: :empty,
             board: %{
               {0, 0} => 1,
               {0, 1} => 2,
@@ -18,6 +19,7 @@ defmodule State do
           player: String.t(),
           opponent: String.t(),
           current_player: String.t(),
+          mode: Atom.t(),
           board: Map.t()
         }
 

@@ -48,17 +48,38 @@ defmodule ValidationTest do
       assert Validation.space_on_board?("10") == {:error, :nonexistant_space}
     end
 
-    test "cycles through invalid mode types until valid entry" do
+    test "cycles through invalid mode types until mode 1 is chosen" do
       Helpers.Stack.setup(["foo\n", "hi!\n", "6\n", "1\n"])
 
       mock_deps = %{
-        validation: MockValidation,
-        messages: MockMessages,
-        io: MockTTT.IO,
-        player: Player
+        io: MockTTT.IO
       }
 
       assert Validation.choose_mode(mock_deps) == "1"
+
+      Helpers.Stack.teardown()
+    end
+
+    test "cycles through invalid mode types until mode 2 is chosen" do
+      Helpers.Stack.setup(["foo\n", "hi!\n", "6\n", "2\n"])
+
+      mock_deps = %{
+        io: MockTTT.IO
+      }
+
+      assert Validation.choose_mode(mock_deps) == "2"
+
+      Helpers.Stack.teardown()
+    end
+
+    test "cycles through invalid mode types until mode 3 is chosen" do
+      Helpers.Stack.setup(["foo\n", "hi!\n", "6\n", "3\n"])
+
+      mock_deps = %{
+        io: MockTTT.IO
+      }
+
+      assert Validation.choose_mode(mock_deps) == "3"
 
       Helpers.Stack.teardown()
     end

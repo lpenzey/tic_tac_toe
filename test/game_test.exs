@@ -25,7 +25,7 @@ defmodule GameTest do
     end
 
     test "initializes game with player token \"a\" opponent token \"b\" and current player \"a\"" do
-      assert Game.set_tokens("a", "b") == %State{
+      assert Game.set_options("a", "b", :human_v_human) == %State{
                board: %{
                  {0, 0} => 1,
                  {0, 1} => 2,
@@ -39,7 +39,8 @@ defmodule GameTest do
                },
                current_player: "a",
                opponent: "b",
-               player: "a"
+               player: "a",
+               mode: :human_v_human
              }
     end
 
@@ -64,15 +65,12 @@ defmodule GameTest do
       Helpers.Stack.setup(["1\n", "2\n", "3\n", "4\n", "5\n", "6\n", "7\n", "8\n", "9\n"])
 
       mock_deps = %{
-        validation: Validation,
-        messages: Messages,
-        io: MockTTT.IO,
-        player: Player
+        io: MockTTT.IO
       }
 
       assert Regex.match?(
                ~r/game/,
-               Game.play(context[:initial_game_state], mock_deps, :human_v_computer)
+               Game.play(context[:initial_game_state], mock_deps, :human_v_easy_computer)
              )
 
       Helpers.Stack.teardown()
