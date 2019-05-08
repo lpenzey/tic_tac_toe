@@ -30,7 +30,7 @@ defmodule State do
   end
 
   def get_opponent(state) do
-    state.player
+    state.opponent
   end
 
   def invert(state) do
@@ -44,8 +44,8 @@ defmodule State do
     %State{
       player: state.player,
       opponent: state.opponent,
-      current_player: switch_player(state),
-      board: Map.replace!(state.board, move, state.current_player)
+      board: Map.replace!(state.board, move, state.current_player),
+      current_player: switch_player(state)
     }
   end
 
