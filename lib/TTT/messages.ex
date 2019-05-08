@@ -2,8 +2,9 @@ defmodule Messages do
   def get_message(term) do
     messages = %{
       welcome: "Welcome to Tic Tac Toe!",
-      choose: "Please choose a spot by entering 1 - 9: ",
+      choose: " - please choose a spot by entering 1 - 9: ",
       choose_token: "Please choose your symbol: ",
+      choose_opponent_token: "Please choose the opponent's symbol: ",
       choose_mode:
         "Please choose game mode\nEnter \"1\" to play against a friend\nEnter \"2\" to play against the computer: ",
       nonexistant_space: "I'm sorry, that space doesn't exist on the board, please choose again",
