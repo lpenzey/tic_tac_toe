@@ -1,4 +1,7 @@
 defmodule Game do
+  @mode1 :human_v_human
+  @mode2 :human_v_easy_computer
+  @mode3 :human_v_hard_computer
   def set_options(player, opponent, mode) do
     %State{player: player, opponent: opponent, current_player: player, mode: mode}
   end
@@ -12,9 +15,9 @@ defmodule Game do
     play(state, deps, mode)
   end
 
-  def select_mode(mode) when mode == "1", do: :human_v_human
-  def select_mode(mode) when mode == "2", do: :human_v_easy_computer
-  def select_mode(mode) when mode == "3", do: :human_v_hard_computer
+  def select_mode(mode) when mode == "1", do: @mode1
+  def select_mode(mode) when mode == "2", do: @mode2
+  def select_mode(mode) when mode == "3", do: @mode3
 
   def over(io, state) do
     Messages.display_board(io, state)
@@ -23,20 +26,20 @@ defmodule Game do
 
   def play(state, deps, mode) do
     case mode do
-      :human_v_human ->
+      @mode1 ->
         Messages.display_board(deps.io, state)
 
         human_move(state, deps)
         |> check_status(deps, :human_v_human)
 
-      :human_v_easy_computer ->
+      @mode2 ->
         Messages.display_board(deps.io, state)
 
         human_move(state, deps)
         |> easy_computer_move()
         |> check_status(deps, :human_v_easy_computer)
 
-      :human_v_hard_computer ->
+      @mode3 ->
         Messages.display_board(deps.io, state)
 
         human_move(state, deps)
