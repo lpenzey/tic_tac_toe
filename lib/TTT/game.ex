@@ -65,31 +65,24 @@ defmodule Game do
   end
 
   def hard_computer_move(state) do
-    move =
-      try do
-        Minimax.minimax(state).position
-      rescue
-        e in KeyError -> {:error, e}
-      end
-
-    case move do
-      {:error, _} ->
+    try do
+      Minimax.minimax(state).position
+      |> Player.place_move(state)
+    rescue
+      e in KeyError ->
+        {:error, e}
         state
-
-      _ ->
-        Player.place_move(move, state)
     end
   end
 
   def easy_computer_move(state) do
-    move = Player.select_move(state)
-
-    case move do
-      {:error, "empty error"} ->
+    try do
+      Player.select_move(state)
+      |> Player.place_move(state)
+    rescue
+      e in KeyError ->
+        {:error, e}
         state
-
-      _ ->
-        Player.place_move(move, state)
     end
   end
 end
