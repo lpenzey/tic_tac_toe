@@ -42,11 +42,17 @@ defmodule Player do
     else
       {:error, :nonexistant_space} ->
         Messages.display_message(deps.io, :nonexistant_space)
-        deps.io.retrieve(:choose) |> Validation.sanitized_move() |> analyze(state, deps)
+
+        deps.io.retrieve(Messages.get_message(:choose))
+        |> Validation.sanitized_move()
+        |> analyze(state, deps)
 
       {:error, :space_taken} ->
         Messages.display_message(deps.io, :space_taken)
-        deps.io.retrieve(:choose) |> Validation.sanitized_move() |> analyze(state, deps)
+
+        deps.io.retrieve(Messages.get_message(:choose))
+        |> Validation.sanitized_move()
+        |> analyze(state, deps)
     end
   end
 
