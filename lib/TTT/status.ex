@@ -52,11 +52,7 @@ defmodule Status do
   end
 
   defp winning_combo?(combo) do
-    if Enum.count(Enum.dedup(combo)) == 1 do
-      true
-    else
-      false
-    end
+    Enum.count(Enum.dedup(combo)) == 1
   end
 
   def win_combinations(board) do
