@@ -4,6 +4,6 @@ defmodule OptionsBuilder do
   end
 
   def build_deps() do
-    Application.get_env(:tic_tac_toe, :deps)
+    Application.get_env(:tic_tac_toe, :io_wrapper)
   end
 end

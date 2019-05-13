@@ -51,26 +51,37 @@ defmodule GameTest do
     test "cycles through moves in human vs. human until a player wins or ties", context do
       Helpers.Stack.setup(["1\n", "2\n", "3\n", "4\n", "5\n", "6\n", "7\n", "8\n", "9\n"])
 
-      mock_deps = %{io: MockTTT.IO}
+      mock_io = MockTTT.IO
 
       assert Regex.match?(
                ~r/game/,
-               Game.play(context[:initial_game_state], mock_deps, :human_v_human)
+               Game.play(context[:initial_game_state], mock_io, :human_v_human)
              )
 
       Helpers.Stack.teardown()
     end
 
-    test "cycles through moves in human vs. computer until a player wins or ties", context do
+    test "cycles through moves in human vs. easy computer until a player wins or ties", context do
       Helpers.Stack.setup(["1\n", "2\n", "3\n", "4\n", "5\n", "6\n", "7\n", "8\n", "9\n"])
 
-      mock_deps = %{
-        io: MockTTT.IO
-      }
+      mock_io = MockTTT.IO
 
       assert Regex.match?(
                ~r/game/,
-               Game.play(context[:initial_game_state], mock_deps, :human_v_easy_computer)
+               Game.play(context[:initial_game_state], mock_io, :human_v_easy_computer)
+             )
+
+      Helpers.Stack.teardown()
+    end
+
+    test "cycles through moves in human vs. hard computer until a player wins or ties", context do
+      Helpers.Stack.setup(["1\n", "2\n", "3\n", "4\n", "5\n", "6\n", "7\n", "8\n", "9\n"])
+
+      mock_io = MockTTT.IO
+
+      assert Regex.match?(
+               ~r/game/,
+               Game.play(context[:initial_game_state], mock_io, :human_v_hard_computer)
              )
 
       Helpers.Stack.teardown()
@@ -92,9 +103,31 @@ defmodule GameTest do
             {2, 1} => "X",
             {2, 2} => 9
           },
-          player: "X"
+          player: "X",
+          opponent: "O",
+          current_player: "O"
         }
       }
+    end
+
+    test "fills last remaining position", context do
+      assert Game.hard_computer_move(context[:one_move_away_state]) == %State{
+               board: %{
+                 {0, 0} => "X",
+                 {0, 1} => "O",
+                 {0, 2} => "X",
+                 {1, 0} => "O",
+                 {1, 1} => "X",
+                 {1, 2} => "O",
+                 {2, 0} => "O",
+                 {2, 1} => "X",
+                 {2, 2} => "O"
+               },
+               current_player: "X",
+               mode: :empty,
+               opponent: "O",
+               player: "X"
+             }
     end
   end
 
@@ -145,6 +178,14 @@ defmodule GameTest do
 
     test "outputs win message", context do
       assert Regex.match?(~r/win/, Game.over(MockTTT.IO, context[:winning_game_state]))
+    end
+
+    test "hard computer player returns state when asked to make a move", context do
+      assert Game.hard_computer_move(context[:winning_game_state]) == context[:winning_game_state]
+    end
+
+    test "easy computer player returns state when asked to make a move", context do
+      assert Game.easy_computer_move(context[:winning_game_state]) == context[:winning_game_state]
     end
   end
 end

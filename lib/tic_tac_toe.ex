@@ -1,6 +1,6 @@
 defmodule TicTacToe do
   def main(_opts \\ []) do
-    deps = OptionsBuilder.init()
-    Game.start(deps)
+    io = OptionsBuilder.init()
+    Game.start(io)
   end
 end

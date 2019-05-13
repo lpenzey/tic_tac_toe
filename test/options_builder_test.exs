@@ -1,9 +1,7 @@
 defmodule OptionsBuilderTest do
   use ExUnit.Case
 
-  test "builds test dependencies" do
-    assert OptionsBuilder.init() == %{
-             io: MockTTT.IO
-           }
+  test "builds mock io wrapper" do
+    assert OptionsBuilder.init() == MockTTT.IO
   end
 end

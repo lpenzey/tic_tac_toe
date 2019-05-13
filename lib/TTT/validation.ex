@@ -19,9 +19,9 @@ defmodule Validation do
     end
   end
 
-  def choose_mode(deps) do
+  def choose_mode(io) do
     mode =
-      deps.io.retrieve(Messages.get_message(:choose_mode))
+      io.retrieve(Messages.get_message(:choose_mode))
       |> Validation.clean()
 
     case mode do
@@ -35,43 +35,43 @@ defmodule Validation do
         mode
 
       _ ->
-        choose_mode(deps)
+        choose_mode(io)
     end
   end
 
-  def choose_token(deps) do
-    deps.io.retrieve(Messages.get_message(:choose_token))
+  def choose_token(io) do
+    io.retrieve(Messages.get_message(:choose_token))
     |> clean()
-    |> validate_token(deps)
+    |> validate_token(io)
   end
 
-  def choose_token(deps, player_token) do
-    deps.io.retrieve(Messages.get_message(:choose_opponent_token))
+  def choose_token(io, player_token) do
+    io.retrieve(Messages.get_message(:choose_opponent_token))
     |> clean()
-    |> validate_token(player_token, deps)
+    |> validate_token(player_token, io)
   end
 
-  def validate_token(token, deps) when byte_size(token) != 1 do
-    deps.io.display(Messages.get_message(:token_length_error))
-    choose_token(deps)
+  def validate_token(token, io) when byte_size(token) != 1 do
+    io.display(Messages.get_message(:token_length_error))
+    choose_token(io)
   end
 
-  def validate_token(token, _deps) when byte_size(token) == 1 do
+  def validate_token(token, _io) when byte_size(token) == 1 do
     token
   end
 
-  def validate_token(opponent_token, player_token, deps) when opponent_token == player_token do
-    deps.io.display(Messages.get_message(:same_token))
-    choose_token(deps, player_token)
+  def validate_token(opponent_token, player_token, io) when opponent_token == player_token do
+    io.display(Messages.get_message(:same_token))
+    choose_token(io, player_token)
   end
 
-  def validate_token(opponent_token, player_token, deps)
+  def validate_token(opponent_token, player_token, io)
       when byte_size(opponent_token) != 1 do
-    deps.io.display(Messages.get_message(:token_length_error))
-    choose_token(deps, player_token)
+    io.display(Messages.get_message(:token_length_error))
+    choose_token(io, player_token)
   end
 
-  def validate_token(opponent_token, player_token, _deps)
+  def validate_token(opponent_token, player_token, _io)
       when opponent_token != player_token and byte_size(opponent_token) == 1 do
     opponent_token
   end

@@ -25,11 +25,9 @@ defmodule ValidationTest do
     test "rejects player tokens longer than 1 bytes" do
       Helpers.Stack.setup(["foobar\n", "hello\n", "goodbye\n", "A\n"])
 
-      mock_deps = %{
-        io: MockTTT.IO
-      }
+      mock_io = MockTTT.IO
 
-      assert Validation.choose_token(mock_deps) == "A"
+      assert Validation.choose_token(mock_io) == "A"
 
       Helpers.Stack.teardown()
     end
@@ -39,11 +37,9 @@ defmodule ValidationTest do
 
       player_token = "x"
 
-      mock_deps = %{
-        io: MockTTT.IO
-      }
+      mock_io = MockTTT.IO
 
-      assert Validation.choose_token(mock_deps, player_token) == "A"
+      assert Validation.choose_token(mock_io, player_token) == "A"
 
       Helpers.Stack.teardown()
     end
@@ -77,11 +73,9 @@ defmodule ValidationTest do
     test "cycles through invalid mode types until mode 1 is chosen" do
       Helpers.Stack.setup(["foo\n", "hi!\n", "6\n", "1\n"])
 
-      mock_deps = %{
-        io: MockTTT.IO
-      }
+      mock_io = MockTTT.IO
 
-      assert Validation.choose_mode(mock_deps) == "1"
+      assert Validation.choose_mode(mock_io) == "1"
 
       Helpers.Stack.teardown()
     end
@@ -89,11 +83,9 @@ defmodule ValidationTest do
     test "cycles through invalid mode types until mode 2 is chosen" do
       Helpers.Stack.setup(["foo\n", "hi!\n", "6\n", "2\n"])
 
-      mock_deps = %{
-        io: MockTTT.IO
-      }
+      mock_io = MockTTT.IO
 
-      assert Validation.choose_mode(mock_deps) == "2"
+      assert Validation.choose_mode(mock_io) == "2"
 
       Helpers.Stack.teardown()
     end
@@ -101,11 +93,9 @@ defmodule ValidationTest do
     test "cycles through invalid mode types until mode 3 is chosen" do
       Helpers.Stack.setup(["foo\n", "hi!\n", "6\n", "3\n"])
 
-      mock_deps = %{
-        io: MockTTT.IO
-      }
+      mock_io = MockTTT.IO
 
-      assert Validation.choose_mode(mock_deps) == "3"
+      assert Validation.choose_mode(mock_io) == "3"
 
       Helpers.Stack.teardown()
     end
@@ -151,11 +141,10 @@ defmodule ValidationTest do
       Helpers.Stack.setup(["A\n"])
 
       player_token = "B"
-      mock_deps = %{
-        io: MockTTT.IO
-      }
 
-      assert Validation.choose_token(mock_deps, player_token) == "A"
+      mock_io = MockTTT.IO
+
+      assert Validation.choose_token(mock_io, player_token) == "A"
 
       Helpers.Stack.teardown()
     end

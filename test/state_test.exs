@@ -50,6 +50,10 @@ defmodule StateTest do
     assert State.get_player(context[:empty_board_state]) == "X"
   end
 
+  test "gets the opponent symbol", context do
+    assert State.get_opponent(context[:empty_board_state]) == "O"
+  end
+
   test "swaps board keys and values", context do
     assert State.invert(context[:empty_board_state]) == %{
              1 => {0, 0},

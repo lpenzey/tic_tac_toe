@@ -14,24 +14,24 @@ defmodule Player do
     end
   end
 
-  def analyze(move, state, deps) do
+  def analyze(move, state, io) do
     with {:ok, :space_on_board} <- Validation.space_on_board?(move),
          {:ok, :is_open} <- Validation.open?(move, state) do
       place_move(move, state)
     else
       {:error, :nonexistant_space} ->
-        Messages.display_message(deps.io, :nonexistant_space)
+        Messages.display_message(io, :nonexistant_space)
 
-        deps.io.retrieve(Messages.get_message(:choose))
+        io.retrieve(Messages.get_message(:choose))
         |> Validation.sanitized_move()
-        |> analyze(state, deps)
+        |> analyze(state, io)
 
       {:error, :space_taken} ->
-        Messages.display_message(deps.io, :space_taken)
+        Messages.display_message(io, :space_taken)
 
-        deps.io.retrieve(Messages.get_message(:choose))
+        io.retrieve(Messages.get_message(:choose))
         |> Validation.sanitized_move()
-        |> analyze(state, deps)
+        |> analyze(state, io)
     end
   end
 

@@ -17,7 +17,8 @@ defmodule MinimaxTest do
         },
         player: "X",
         opponent: "O",
-        current_player: "O"
+        current_player: "O",
+        mode: :human_v_human
       }
     }
   end

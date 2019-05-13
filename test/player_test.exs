@@ -25,13 +25,11 @@ defmodule PlayerTest do
     end
 
     test "rejects invalid moves until valid move is entered", context do
-      mock_deps = %{
-        io: MockTTT.IO
-      }
+      mock_io = MockTTT.IO
 
       Helpers.Stack.setup(["foo", "10\n", "1\n", "4\n"])
 
-      assert Player.analyze("move", context[:intermediary_board_state], mock_deps) == %State{
+      assert Player.analyze("move", context[:intermediary_board_state], mock_io) == %State{
                board: %{
                  {0, 0} => "X",
                  {0, 1} => "O",

@@ -17,7 +17,9 @@ defmodule ConsoleBoardPresenterTest do
             {2, 1} => 8,
             {2, 2} => 9
           },
-          player: "X"
+          player: "X",
+          opponent: "O",
+          current_player: "X"
         }
       }
     end
@@ -43,7 +45,9 @@ defmodule ConsoleBoardPresenterTest do
             {2, 1} => 8,
             {2, 2} => 9
           },
-          player: "X"
+          player: "X",
+          opponent: "O",
+          current_player: "X"
         }
       }
     end
@@ -69,7 +73,9 @@ defmodule ConsoleBoardPresenterTest do
             {2, 1} => "O",
             {2, 2} => "X"
           },
-          player: "X"
+          player: "X",
+          opponent: "O",
+          current_player: "X"
         }
       }
     end
