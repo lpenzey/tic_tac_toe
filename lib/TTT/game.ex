@@ -9,8 +9,8 @@ defmodule Game do
   def start(deps) do
     deps.io.display(Messages.get_message(:welcome))
     mode = select_mode(Validation.choose_mode(deps))
-    player_token = Player.choose_token(deps)
-    opponent_symbol = Player.choose_token(deps, player_token)
+    player_token = Validation.choose_token(deps)
+    opponent_symbol = Validation.choose_token(deps, player_token)
     state = set_options(player_token, opponent_symbol, mode)
     play(state, deps, mode)
   end

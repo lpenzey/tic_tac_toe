@@ -39,6 +39,43 @@ defmodule Validation do
     end
   end
 
+  def choose_token(deps) do
+    deps.io.retrieve(Messages.get_message(:choose_token))
+    |> clean()
+    |> validate_token(deps)
+  end
+
+  def choose_token(deps, player_token) do
+    deps.io.retrieve(Messages.get_message(:choose_opponent_token))
+    |> clean()
+    |> validate_token(player_token, deps)
+  end
+
+  def validate_token(token, deps) when byte_size(token) != 1 do
+    deps.io.display(Messages.get_message(:token_length_error))
+    choose_token(deps)
+  end
+
+  def validate_token(token, _deps) when byte_size(token) == 1 do
+    token
+  end
+
+  def validate_token(opponent_token, player_token, deps) when opponent_token == player_token do
+    deps.io.display(Messages.get_message(:same_token))
+    choose_token(deps, player_token)
+  end
+
+  def validate_token(opponent_token, player_token, deps)
+      when byte_size(opponent_token) != 1 do
+    deps.io.display(Messages.get_message(:token_length_error))
+    choose_token(deps, player_token)
+  end
+
+  def validate_token(opponent_token, player_token, _deps)
+      when opponent_token != player_token and byte_size(opponent_token) == 1 do
+    opponent_token
+  end
+
   def sanitized_move(input) do
     clean(input)
     |> to_int()

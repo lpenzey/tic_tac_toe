@@ -14,27 +14,6 @@ defmodule Player do
     end
   end
 
-  def choose_token(deps) do
-    token =
-      deps.io.retrieve(Messages.get_message(:choose_token))
-      |> Validation.clean()
-
-    token
-  end
-
-  def choose_token(deps, player_token) do
-    token =
-      deps.io.retrieve(Messages.get_message(:choose_opponent_token))
-      |> Validation.clean()
-
-    if token == player_token do
-      deps.io.display(Messages.get_message(:same_token))
-      choose_token(deps, player_token)
-    else
-      token
-    end
-  end
-
   def analyze(move, state, deps) do
     with {:ok, :space_on_board} <- Validation.space_on_board?(move),
          {:ok, :is_open} <- Validation.open?(move, state) do

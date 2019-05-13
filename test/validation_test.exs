@@ -22,6 +22,32 @@ defmodule ValidationTest do
       }
     end
 
+    test "rejects player tokens longer than 1 bytes" do
+      Helpers.Stack.setup(["foobar\n", "hello\n", "goodbye\n", "A\n"])
+
+      mock_deps = %{
+        io: MockTTT.IO
+      }
+
+      assert Validation.choose_token(mock_deps) == "A"
+
+      Helpers.Stack.teardown()
+    end
+
+    test "rejects opponent tokens that's the same as player" do
+      Helpers.Stack.setup(["foobar\n", "hello\n", "x\n", "A\n"])
+
+      player_token = "x"
+
+      mock_deps = %{
+        io: MockTTT.IO
+      }
+
+      assert Validation.choose_token(mock_deps, player_token) == "A"
+
+      Helpers.Stack.teardown()
+    end
+
     test "returns NAN error message" do
       assert Validation.sanitized_move("a") == {:error, :not_a_number}
     end
@@ -119,6 +145,19 @@ defmodule ValidationTest do
 
     test "confirms space is open", context do
       assert Validation.open?(1, context[:empty_board_state])
+    end
+
+    test "accepts an opponent token" do
+      Helpers.Stack.setup(["A\n"])
+
+      player_token = "B"
+      mock_deps = %{
+        io: MockTTT.IO
+      }
+
+      assert Validation.choose_token(mock_deps, player_token) == "A"
+
+      Helpers.Stack.teardown()
     end
   end
 end

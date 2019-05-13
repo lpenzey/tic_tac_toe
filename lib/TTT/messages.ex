@@ -13,7 +13,8 @@ defmodule Messages do
       tie: "The game is a tie!",
       opponent_move: "Opponent's turn:",
       winner: " is the winner of this game!",
-      same_token: "Please enter a unique symbol"
+      same_token: "Please enter a unique symbol",
+      token_length_error: "Please choose a token that is 1 character long"
     }
 
     messages[term]
