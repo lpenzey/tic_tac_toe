@@ -29,7 +29,7 @@ defmodule PlayerTest do
 
       Helpers.Stack.setup(["foo", "10\n", "1\n", "4\n"])
 
-      assert Player.analyze("move", context[:intermediary_board_state], mock_io) == %State{
+      assert Player.check_move("move", context[:intermediary_board_state], mock_io) == %State{
                board: %{
                  {0, 0} => "X",
                  {0, 1} => "O",

@@ -61,7 +61,7 @@ defmodule Game do
   def human_move(state, io) do
     io.retrieve(state.current_player <> Messages.get_message(:choose))
     |> Validation.sanitized_move()
-    |> Player.analyze(state, io)
+    |> Player.check_move(state, io)
   end
 
   def hard_computer_move(state) do

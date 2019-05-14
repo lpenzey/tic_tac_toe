@@ -14,24 +14,18 @@ defmodule Player do
     end
   end
 
-  def analyze(move, state, io) do
+  def check_move(move, state, io) do
     with {:ok, :space_on_board} <- Validation.space_on_board?(move),
          {:ok, :is_open} <- Validation.open?(move, state) do
       place_move(move, state)
     else
       {:error, :nonexistant_space} ->
         Messages.display_message(io, :nonexistant_space)
-
-        io.retrieve(Messages.get_message(:choose))
-        |> Validation.sanitized_move()
-        |> analyze(state, io)
+        get_input(state, io)
 
       {:error, :space_taken} ->
         Messages.display_message(io, :space_taken)
-
-        io.retrieve(Messages.get_message(:choose))
-        |> Validation.sanitized_move()
-        |> analyze(state, io)
+        get_input(state, io)
     end
   end
 
@@ -42,5 +36,11 @@ defmodule Player do
 
   def place_move(move, state) when is_tuple(move) do
     State.set_move(move, state)
+  end
+
+  defp get_input(state, io) do
+    io.retrieve(Messages.get_message(:choose))
+    |> Validation.sanitized_move()
+    |> check_move(state, io)
   end
 end
