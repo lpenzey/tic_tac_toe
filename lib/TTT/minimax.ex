@@ -9,7 +9,11 @@ defmodule Minimax do
         scored_moves =
           Enum.map(available_moves, fn position ->
             new_state = Player.place_move(position, state)
-            %{player: state.current_player, position: position, score: minimax(new_state).score}
+
+            %{
+              position: position,
+              score: minimax(new_state).score
+            }
           end)
 
         optimal_move(scored_moves, state)
@@ -19,10 +23,10 @@ defmodule Minimax do
   def score_move(state, winner) do
     cond do
       state.player == winner ->
-        %{score: -10}
+        %{score: -20}
 
       state.opponent == winner ->
-        %{score: 10}
+        %{score: 20}
 
       nil == winner ->
         %{score: 0}
@@ -36,13 +40,21 @@ defmodule Minimax do
 
     case current do
       ^max ->
-        Enum.reduce(moves, %{player: nil, position: nil, score: -10}, fn move, acc ->
-          if move.score >= acc.score, do: move, else: acc
+        Enum.reduce(moves, %{position: nil, score: -10}, fn move, acc ->
+          if move.score > acc.score do
+            move
+          else
+            acc
+          end
         end)
 
       ^min ->
-        Enum.reduce(moves, %{player: nil, position: nil, score: 10}, fn move, acc ->
-          if move.score <= acc.score, do: move, else: acc
+        Enum.reduce(moves, %{position: nil, score: 10}, fn move, acc ->
+          if move.score < acc.score do
+            move
+          else
+            acc
+          end
         end)
     end
   end
