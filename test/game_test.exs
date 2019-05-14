@@ -19,13 +19,14 @@ defmodule GameTest do
           },
           player: "X",
           opponent: "O",
-          current_player: "X"
+          current_player: "X",
+          mode: :empty
         }
       }
     end
 
     test "initializes game with player token \"a\" opponent token \"b\" and current player \"a\"" do
-      assert Game.set_options("a", "b", :human_v_human) == %State{
+      assert Game.set_options("a", "b", "b", :human_v_human) == %State{
                board: %{
                  {0, 0} => 1,
                  {0, 1} => 2,
@@ -37,7 +38,7 @@ defmodule GameTest do
                  {2, 1} => 8,
                  {2, 2} => 9
                },
-               current_player: "a",
+               current_player: "b",
                opponent: "b",
                player: "a",
                mode: :human_v_human

@@ -27,6 +27,7 @@ defmodule TicTacToeTest do
         "1\n",
         "a\n",
         "b\n",
+        "b\n",
         "1\n",
         "2\n",
         "3\n",

@@ -39,6 +39,23 @@ defmodule Validation do
     end
   end
 
+  def choose_first_player(io, player_token, opponent_token) do
+    io.retrieve(
+      Messages.get_message(:choose_first_player) <> "(#{player_token} or #{opponent_token}): "
+    )
+    |> clean()
+    |> validate_first_player(io, player_token, opponent_token)
+  end
+
+  def validate_first_player(first_player, io, player_token, opponent_token) do
+    if first_player == player_token or first_player == opponent_token do
+      first_player
+    else
+      io.display(Messages.get_message(:first_player_error))
+      choose_first_player(io, player_token, opponent_token)
+    end
+  end
+
   def choose_token(io) do
     io.retrieve(Messages.get_message(:choose_token))
     |> clean()
