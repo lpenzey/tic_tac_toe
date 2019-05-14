@@ -2,9 +2,6 @@ defmodule Game do
   @mode1 :human_v_human
   @mode2 :human_v_easy_computer
   @mode3 :human_v_hard_computer
-  def set_options(player, opponent, mode) do
-    %State{player: player, opponent: opponent, current_player: player, mode: mode}
-  end
 
   def start(io) do
     io.display(Messages.get_message(:welcome))
@@ -13,6 +10,10 @@ defmodule Game do
     opponent_symbol = Validation.choose_token(io, player_token)
     state = set_options(player_token, opponent_symbol, mode)
     play(state, io, mode)
+  end
+
+  def set_options(player, opponent, mode) do
+    %State{player: player, opponent: opponent, current_player: player, mode: mode}
   end
 
   def select_mode(mode) when mode == "1", do: @mode1
@@ -25,27 +26,11 @@ defmodule Game do
   end
 
   def play(state, io, mode) do
-    case mode do
-      @mode1 ->
-        Messages.display_board(io, state)
+    Messages.display_board(io, state)
 
-        human_move(state, io)
-        |> check_status(io, :human_v_human)
-
-      @mode2 ->
-        Messages.display_board(io, state)
-
-        human_move(state, io)
-        |> easy_computer_move()
-        |> check_status(io, :human_v_easy_computer)
-
-      @mode3 ->
-        Messages.display_board(io, state)
-
-        human_move(state, io)
-        |> hard_computer_move()
-        |> check_status(io, :human_v_hard_computer)
-    end
+    human_move(state, io)
+    |> opponent(io, mode)
+    |> check_status(io, mode)
   end
 
   def check_status(state, io, mode) do
@@ -84,5 +69,17 @@ defmodule Game do
         {:error, e}
         state
     end
+  end
+
+  defp opponent(state, io, mode) when mode == @mode1 do
+    human_move(state, io)
+  end
+
+  defp opponent(state, _io, mode) when mode == @mode2 do
+    easy_computer_move(state)
+  end
+
+  defp opponent(state, _io, mode) when mode == @mode3 do
+    hard_computer_move(state)
   end
 end
