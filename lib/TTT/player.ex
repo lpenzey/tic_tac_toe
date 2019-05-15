@@ -14,36 +14,18 @@ defmodule Player do
     end
   end
 
-  def choose_token(deps) do
-    token =
-      deps.io.retrieve(Messages.get_message(:choose_token))
-      |> Validation.clean()
-      |> String.upcase()
-
-    case token do
-      "X" ->
-        token
-
-      "O" ->
-        token
-
-      _ ->
-        choose_token(deps)
-    end
-  end
-
-  def analyze(move, state, deps) do
+  def check_move(move, state, io) do
     with {:ok, :space_on_board} <- Validation.space_on_board?(move),
          {:ok, :is_open} <- Validation.open?(move, state) do
       place_move(move, state)
     else
       {:error, :nonexistant_space} ->
-        Messages.display_message(deps.io, :nonexistant_space)
-        deps.io.retrieve(:choose) |> Validation.sanitized_move() |> analyze(state, deps)
+        Messages.display_message(io, :nonexistant_space)
+        get_input(state, io)
 
       {:error, :space_taken} ->
-        Messages.display_message(deps.io, :space_taken)
-        deps.io.retrieve(:choose) |> Validation.sanitized_move() |> analyze(state, deps)
+        Messages.display_message(io, :space_taken)
+        get_input(state, io)
     end
   end
 
@@ -54,5 +36,11 @@ defmodule Player do
 
   def place_move(move, state) when is_tuple(move) do
     State.set_move(move, state)
+  end
+
+  defp get_input(state, io) do
+    io.retrieve(Messages.get_message(:choose))
+    |> Validation.sanitized_move()
+    |> check_move(state, io)
   end
 end

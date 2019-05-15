@@ -1,5 +1,8 @@
 defmodule State do
-  defstruct player: "X",
+  defstruct player: "",
+            opponent: "",
+            current_player: "",
+            mode: :empty,
             board: %{
               {0, 0} => 1,
               {0, 1} => 2,
@@ -12,7 +15,13 @@ defmodule State do
               {2, 2} => 9
             }
 
-  @type t :: %__MODULE__{player: String.t(), board: Map.t()}
+  @type t :: %__MODULE__{
+          player: String.t(),
+          opponent: String.t(),
+          current_player: String.t(),
+          mode: Atom.t(),
+          board: Map.t()
+        }
 
   def get_board(state) do
     state.board
@@ -20,6 +29,10 @@ defmodule State do
 
   def get_player(state) do
     state.player
+  end
+
+  def get_opponent(state) do
+    state.opponent
   end
 
   def invert(state) do
@@ -31,12 +44,18 @@ defmodule State do
 
   def set_move(move, state) do
     %State{
-      player: switch_player(state.player),
-      board: Map.replace!(state.board, move, state.player)
+      player: state.player,
+      opponent: state.opponent,
+      board: Map.replace!(state.board, move, state.current_player),
+      current_player: switch_player(state)
     }
   end
 
-  defp switch_player("X"), do: "O"
-
-  defp switch_player("O"), do: "X"
+  def switch_player(state) do
+    if state.current_player == state.player do
+      state.opponent
+    else
+      state.player
+    end
+  end
 end

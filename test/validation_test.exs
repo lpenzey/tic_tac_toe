@@ -22,6 +22,28 @@ defmodule ValidationTest do
       }
     end
 
+    test "rejects player tokens longer than 1 bytes" do
+      Helpers.Stack.setup(["foobar\n", "hello\n", "goodbye\n", "A\n"])
+
+      mock_io = MockTTT.IO
+
+      assert Validation.choose_token(mock_io) == "A"
+
+      Helpers.Stack.teardown()
+    end
+
+    test "rejects opponent tokens that's the same as player" do
+      Helpers.Stack.setup(["foobar\n", "hello\n", "x\n", "A\n"])
+
+      player_token = "x"
+
+      mock_io = MockTTT.IO
+
+      assert Validation.choose_token(mock_io, player_token) == "A"
+
+      Helpers.Stack.teardown()
+    end
+
     test "returns NAN error message" do
       assert Validation.sanitized_move("a") == {:error, :not_a_number}
     end
@@ -48,17 +70,32 @@ defmodule ValidationTest do
       assert Validation.space_on_board?("10") == {:error, :nonexistant_space}
     end
 
-    test "cycles through invalid mode types until valid entry" do
+    test "cycles through invalid mode types until mode 1 is chosen" do
       Helpers.Stack.setup(["foo\n", "hi!\n", "6\n", "1\n"])
 
-      mock_deps = %{
-        validation: MockValidation,
-        messages: MockMessages,
-        io: MockTTT.IO,
-        player: Player
-      }
+      mock_io = MockTTT.IO
 
-      assert Validation.choose_mode(mock_deps) == "1"
+      assert Validation.choose_mode(mock_io) == "1"
+
+      Helpers.Stack.teardown()
+    end
+
+    test "cycles through invalid mode types until mode 2 is chosen" do
+      Helpers.Stack.setup(["foo\n", "hi!\n", "6\n", "2\n"])
+
+      mock_io = MockTTT.IO
+
+      assert Validation.choose_mode(mock_io) == "2"
+
+      Helpers.Stack.teardown()
+    end
+
+    test "cycles through invalid mode types until mode 3 is chosen" do
+      Helpers.Stack.setup(["foo\n", "hi!\n", "6\n", "3\n"])
+
+      mock_io = MockTTT.IO
+
+      assert Validation.choose_mode(mock_io) == "3"
 
       Helpers.Stack.teardown()
     end
@@ -98,6 +135,18 @@ defmodule ValidationTest do
 
     test "confirms space is open", context do
       assert Validation.open?(1, context[:empty_board_state])
+    end
+
+    test "accepts an opponent token" do
+      Helpers.Stack.setup(["A\n"])
+
+      player_token = "B"
+
+      mock_io = MockTTT.IO
+
+      assert Validation.choose_token(mock_io, player_token) == "A"
+
+      Helpers.Stack.teardown()
     end
   end
 end
