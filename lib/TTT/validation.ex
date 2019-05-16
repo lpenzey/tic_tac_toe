@@ -44,15 +44,27 @@ defmodule Validation do
       Messages.get_message(:choose_first_player) <> "(#{player_token} or #{opponent_token}): "
     )
     |> clean()
-    |> validate_first_player(io, player_token, opponent_token)
+    |> validate_first_player(player_token, opponent_token)
+    |> case do
+      {:ok, first_player} ->
+        first_player
+
+      {:error} ->
+        io.display(Messages.get_message(:first_player_error))
+        choose_first_player(io, player_token, opponent_token)
+    end
   end
 
-  def validate_first_player(first_player, io, player_token, opponent_token) do
-    if first_player == player_token or first_player == opponent_token do
-      first_player
-    else
-      io.display(Messages.get_message(:first_player_error))
-      choose_first_player(io, player_token, opponent_token)
+  def validate_first_player(first_player, player_token, opponent_token) do
+    case first_player do
+      ^player_token ->
+        {:ok, first_player}
+
+      ^opponent_token ->
+        {:ok, first_player}
+
+      _ ->
+        {:error}
     end
   end
 
