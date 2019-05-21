@@ -27,10 +27,10 @@ defmodule Game do
 
   def play(state, io, mode) do
     Messages.display_board(io, state)
-    player1 = state.player
-    player2 = state.opponent
+    player1 = State.get_player(state)
+    player2 = State.get_opponent(state)
 
-    case state.current_player do
+    case State.get_current_player(state) do
       ^player1 ->
         human_move(state, io, mode)
         |> check_status(io, mode)
@@ -57,7 +57,7 @@ defmodule Game do
   end
 
   def human_move(state, io, _mode) do
-    io.retrieve(state.current_player <> Messages.get_message(:choose))
+    io.retrieve(State.get_current_player(state) <> Messages.get_message(:choose))
     |> Validation.sanitized_move()
     |> Player.check_move(state, io)
   end
