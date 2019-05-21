@@ -27,15 +27,15 @@ defmodule Game do
 
   def play(state, io, mode) do
     Messages.display_board(io, state)
-    player = state.player
-    opponent = state.opponent
+    player1 = state.player
+    player2 = state.opponent
 
     case state.current_player do
-      ^player ->
+      ^player1 ->
         human_move(state, io, mode)
         |> check_status(io, mode)
 
-      ^opponent ->
+      ^player2 ->
         opponent(state, io, mode)
         |> check_status(io, mode)
     end
@@ -84,15 +84,15 @@ defmodule Game do
     end
   end
 
-  defp opponent(state, io, mode) when mode == @mode1 do
-    human_move(state, io, mode)
+  defp opponent(state, io, @mode1) do
+    human_move(state, io, @mode1)
   end
 
-  defp opponent(state, _io, mode) when mode == @mode2 do
+  defp opponent(state, _io, @mode2) do
     easy_computer_move(state)
   end
 
-  defp opponent(state, _io, mode) when mode == @mode3 do
+  defp opponent(state, _io, @mode3) do
     hard_computer_move(state)
   end
 end
