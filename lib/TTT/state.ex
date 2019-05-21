@@ -35,6 +35,10 @@ defmodule State do
     state.opponent
   end
 
+  def get_current_player(state) do
+    state.current_player
+  end
+
   def invert(state) do
     State.get_board(state)
     |> Enum.reduce(%{}, fn {k, vs}, acc ->

@@ -22,10 +22,10 @@ defmodule Minimax do
 
   def score_move(state, winner) do
     cond do
-      state.player == winner ->
+      State.get_player(state) == winner ->
         %{score: -20}
 
-      state.opponent == winner ->
+      State.get_opponent(state) == winner ->
         %{score: 20}
 
       nil == winner ->
@@ -34,9 +34,9 @@ defmodule Minimax do
   end
 
   def optimal_move(moves, state) do
-    min = state.player
-    max = state.opponent
-    current = state.current_player
+    min = State.get_player(state)
+    max = State.get_opponent(state)
+    current = State.get_current_player(state)
 
     case current do
       ^max ->

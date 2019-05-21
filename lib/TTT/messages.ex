@@ -14,7 +14,9 @@ defmodule Messages do
       opponent_move: "Opponent's turn:",
       winner: " is the winner of this game!",
       same_token: "Please enter a unique symbol",
-      token_length_error: "Please choose a token that is 1 character long"
+      token_length_error: "Please choose a token that is 1 character long",
+      choose_first_player: "Please choose which player should go first ",
+      first_player_error: "Please enter either the player or the opponent's token."
     }
 
     messages[term]
